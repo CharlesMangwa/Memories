@@ -1,1 +1,1 @@
-A front-end boilerplate and workflows by Léo Le Bras.
+HETIC P2019 Semaine intensive #3
