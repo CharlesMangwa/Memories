@@ -186,22 +186,17 @@
 
 
  /**
-  * Compile .coffee in .js
+  * Compile .js
   *
   * @with  
   */
 
- gulp.task('coffee', function () {
-
-     gulp.src(srcDir + 'coffee/app.coffee', { read: false })
-         .pipe(browserify({
-             transform: ['coffeeify'],
-             extensions: ['.coffee'],
-             debug: true
-         }))
-        .on('error', gutil.log)
-         .pipe(rename('app.js'))
-         .pipe(gulp.dest(srcDir + 'js/'));
+ gulp.task('javascript', function () {
+     gulp.src(srcDir + 'js/app.js', { read: false })
+         .pipe(browserify())
+         .on('error', gutil.log)
+         .pipe(gulp.dest(srcDir + 'js/'))
+         .pipe(reload({ stream:true }));
  });
 
 
@@ -251,11 +246,11 @@
   *
   */
 
- gulp.task('dev', ['browser_sync', 'sass', 'img', 'coffee'], function () {
+ gulp.task('dev', ['browser_sync', 'sass', 'img', 'javascript'], function () {
      gulp.watch([srcDir + 'sass/**/*.scss'], ['sass']);
      gulp.watch([srcDir + 'img/**'], ['img']);
-     gulp.watch([srcDir + 'coffee/**'], ['coffee']);
-     gulp.watch([srcDir + 'js/**', srcDir + 'img/**', srcDir + 'css/**', srcDir + '*.html'], ['bs-reload']);
+     gulp.watch([srcDir + 'js/**'], ['javascript']);
+     gulp.watch([srcDir + 'img/**', srcDir + 'css/**', srcDir + '*.html'], ['bs-reload']);
  });
 
 
@@ -314,4 +309,5 @@
        \_____|\__,_|_|  __/  .
                      | |    
                      |_|    
+                     
  ------------------------------------- */
