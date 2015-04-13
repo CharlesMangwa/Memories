@@ -1,0 +1,39 @@
+ 
+ /**
+  * Establish font settings
+  * @with mixin "font-settings" in vendors/functions
+  */ 
+
+ @include font-settings();
+
+
+
+  /* ------------------------------------- */
+
+
+
+
+ /**
+  * Headings
+  *
+  */
+ 
+ h1{
+     font-size: rem(45px);
+     color:#a2a2a2;
+ }
+ 
+
+
+
+
+ /**
+  * Paragraph
+  *
+  */
+ 
+ p{
+     color:#2a2a2a;
+ }
+ 
+ /* ------------------------------------- */
