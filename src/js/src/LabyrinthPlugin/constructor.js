@@ -1,4 +1,3 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
  /**
   * Labyrinth Plugin - Constructor
   * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
@@ -355,50 +354,3 @@
  }
 
  module.exports = Constructor;
-},{}],2:[function(require,module,exports){
- (function ($){
-
-    /**
-     * Labyrinth Plugin
-     * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
-     * HETIC P2019
-     *
-     * Copyright 2015
-     * Released under the MIT license
-     * http://opensource.org/licenses/MIT
-     *b
-     * Date : 2015-04-14
-     */
-
-
-    $.fn.labyrinth = function(options){
-        
-        // We construct the labyrinth
-        $(this).prepend('<canvas class="labyrinth__canvas" width="200" height="200"></canvas>');
-        var Constructor = require('./constructor.js');
-        var Labyrinth = new Constructor();
-        Labyrinth.init(options['size']);
-        Labyrinth.build();
-        
-        // Start the gameplau
-        
-        
-         // this.$container.append('<svg height="100" width="100"><circle cx="' + startPointX * this.size + '" cy="' + startPointY * this.size + '" r="' + this.sizeUser / 2 + '" fill="red" /></svg>');
-    };
-
-    module.exports = $.fn.labyrinth;
-
- }(jQuery));
-},{"./constructor.js":1}],3:[function(require,module,exports){
-    /**
-     * Labyrinthe
-     *
-     */
-
-    var labyrinth = require('./LabyrinthPlugin/index.js');
-
-    $('.labyrinth').labyrinth({
-        size : 15,
-    });
-
-},{"./LabyrinthPlugin/index.js":2}]},{},[3])

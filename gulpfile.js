@@ -249,7 +249,7 @@
  gulp.task('dev', ['browser_sync', 'sass', 'img', 'javascript'], function () {
      gulp.watch([srcDir + 'sass/**/*.scss'], ['sass']);
      gulp.watch([srcDir + 'img/**'], ['img']);
-     gulp.watch([srcDir + 'js/**'], ['javascript']);
+     gulp.watch([srcDir + 'js/**/*'], ['javascript']);
      gulp.watch([srcDir + 'img/**', srcDir + 'css/**', srcDir + '*.html'], ['bs-reload']);
  });
 
