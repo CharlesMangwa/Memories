@@ -9,10 +9,13 @@ var Labyrinth = function(){
     this.rows = 0;
     this.cols = 0;
     this.startPoint = '0_0';
+    this.endPoint = false;
     this.size = 30;
     this.borderWidth = 4;
     this.cache = [];
     this.count = 0;
+    this.limit = 0;
+    this.indexGoBack = 0;
     
      /**
       * Init the labyrinth
@@ -77,6 +80,7 @@ var Labyrinth = function(){
         var index = this.startPoint.lastIndexOf('_');
         var x = this.startPoint.substr(0,index);
         var y = this.startPoint.substring(index + 1);
+        this.cache.push(x + '_' + y);
         
         this.jump(x,y);
     }
@@ -84,8 +88,7 @@ var Labyrinth = function(){
     
     this.jump = function(x, y){
         
-        this.count++;
-        console.log(this.count);
+        
         
         var cellsAround = [];
         x = parseInt(x);
@@ -123,19 +126,39 @@ var Labyrinth = function(){
         
         // If there are no non visited cells around the active cell
         if(cellsAround.length == 0){
-            console.log('*****************');
-            console.log('RETOUR EN ARRIERE');
-            console.log('*****************');
+            
+            if(!this.endPoint){
+                var c = this.canvas;
+                c.fillStyle = 'blue';
+                c.fillRect(this.currentCell.substr(0,this.currentCell.lastIndexOf('_')) * this.size + 2 + (this.size - 10) / 2,                 this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.size + 2 + (this.size - 10) / 2, 10, 10);
+                this.endPoint = this.currentCell;
+            }
+            
+            // Si on revient au stade initial
+            if(this.currentCell == this.startPoint){
+                console.log('*****************');
+                console.log('STOP');
+                console.log('*****************');
+            }
+            
+            // Sinon on revient en arrière
+            else{
+                console.log('*****************');
+                console.log('RETOUR EN ARRIERE');
+                console.log('*****************');
+                
+                this.goBack();
+            }
+            
+            
             
             console.log(this.currentCell + ' ; ' + this.startPoint);
             
-            
-            /*var c = this.canvas;
-            c.fillStyle = 'blue';
-            c.fillRect(this.currentCell.substr(0,this.currentCell.lastIndexOf('_')) * this.size + 2 + (this.size - 10) / 2,                 this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.size + 2 + (this.size - 10) / 2, 10, 10);*/
         }
         
         else{
+            this.count++;
+            console.log(this.count);
             var next = cellsAround[Math.floor(Math.random() * cellsAround.length)];
             console.log('Cellule en cours : ' + x + '_' + y + ' en état ' + this.cells[x][y]);
             console.log('Nombre de cellules autour actives : ' + cellsAround.length);
@@ -144,8 +167,9 @@ var Labyrinth = function(){
             console.log('*****************');
             console.log('*****************');
             this.currentCell = next;
+            this.cache.push(x + '_' + y);
+            this.indexGoBack = this.count - 1;
             this.jump(next.substr(0,next.lastIndexOf('_')),next.substring(next.lastIndexOf('_') + 1));
-            
         }
         
     }
@@ -271,9 +295,15 @@ var Labyrinth = function(){
     }
     
     this.goBack = function(){
-       
+        this.indexGoBack = this.indexGoBack - 1;
+        var cell = this.cache[this.indexGoBack];
+        var index = cell.lastIndexOf('_');
+        var x = cell.substr(0,index);
+        var y = cell.substring(index + 1);
+        console.log('#' + x + '_' + y);
+        this.limit++;
+            this.jump(x,y);
     }
-    
 }
 
 module.exports = Labyrinth;
@@ -284,7 +314,7 @@ module.exports = Labyrinth;
      */
     var Labyrinth = require('./Labyrinth.js');
     var Game = new Labyrinth();
-    Game.init(20, 20);
+    Game.init(15, 15);
     Game.start();
 
 },{"./Labyrinth.js":1}]},{},[2])
