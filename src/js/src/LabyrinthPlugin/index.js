@@ -15,17 +15,59 @@
 
     $.fn.labyrinth = function(options){
         
-        // We construct the labyrinth
+        
+        /**
+         * Import and initialize the constructor
+         * 
+         */
+        
         $(this).prepend('<canvas class="labyrinth__canvas" width="200" height="200"></canvas>');
+        $(this).css('position', 'relative');
+        
         var Constructor = require('./constructor.js');
         var Labyrinth = new Constructor();
+        
         Labyrinth.init(options['size']);
         Labyrinth.build();
+     
+
+     
+
+        /* ------------------------------------- */
+
+
+
+        /**
+         * Import and initialize the gameplay
+         * 
+         */
+     
+        var options = Labyrinth.getInformations();
+        var size = options['sizeCell'] * .25;
+            
+        $(this).append('<svg class="labyrinth__player" height="' + size * 2 + '" width="' + size * 2 + '"><circle cy="' + size + '" cx="' + size + '" r="' + size + '" fill="red" /></svg>');
+        $(this).find('.labyrinth__player').css({
+            'position' : 'absolute',
+            'top' : 0,
+            'left' : 0
+        });
         
-        // Start the gameplau
+        var Gameplay = require('./gameplay.js');
+        var Gameplay = new Gameplay();
+        
+        Gameplay.init($('.labyrinth__player'), size, options);
+     
+        $(document).keydown(function(e){
+            Gameplay.move(e);  
+        });
         
         
-         // this.$container.append('<svg height="100" width="100"><circle cx="' + startPointX * this.size + '" cy="' + startPointY * this.size + '" r="' + this.sizeUser / 2 + '" fill="red" /></svg>');
+     
+
+        /* ------------------------------------- */
+     
+        
+        
     };
 
     module.exports = $.fn.labyrinth;

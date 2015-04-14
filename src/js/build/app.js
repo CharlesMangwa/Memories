@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
  /**
-  * Labyrinth Plugin - Constructor
+  * Labyrinth Plugin - Constructor Module
   * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
   * HETIC P2019
   *
@@ -96,13 +96,13 @@
      
      this.build = function(){
          
-         // We take the position of the starting point
+         // Take the position of the starting point
          var index = this.startingCell.lastIndexOf('_');
          var x = this.startingCell.substr(0, index);
          var y = this.startingCell.substring(index + 1);
          this.cache.push(x + '_' + y);
          
-         // And we begin with the first cell
+         // Begin with the first cell
          this.jump(x, y);
          
      }
@@ -156,7 +156,7 @@
          // If there are no new cells around
          if(cellsAround.length == 0){
              
-             // We create the ending point if it has not been created before
+             // Create the ending point if it has not been created before
              if(!this.endingCell){
                  var c = this.canvas;
                  c.fillStyle = 'blue';
@@ -164,7 +164,7 @@
                  this.endingCell = this.currentCell;
              }
 
-             // We come back
+             // Come back
              if(this.currentCell != this.startingCell){
                  this.goBack();
              }
@@ -177,17 +177,17 @@
              // Randomly, we select an another cell
              var nextCell = cellsAround[Math.floor(Math.random() * cellsAround.length)];
              
-             // We move to this new cell
+             // Move to this new cell
              this.currentCell = nextCell;
              
-             // We transpierce a door
+             // Transpierce a door
              this.transpierce((x + '_' + y), nextCell);
              
-             // We save the passage on this cell 
+             // Save the passage on this cell 
              this.cache.push(x + '_' + y);
              this.indexGoBack = this.count - 1;
              
-             // Then we jump by recursion to an another cell
+             // Jump by recursion to an another cell
              this.jump(nextCell.substr(0, nextCell.lastIndexOf('_')), nextCell.substring(nextCell.lastIndexOf('_') + 1));
          }
      }
@@ -232,12 +232,13 @@
      /**
       * Change the state of a cell
       * @params : the current state of the cell and the direction to transpierce
+      * @return : new state of cell
       * 
       */
      
      this.setState = function (state, direction) {
 
-         // We delete the letter c
+         // Delete the letter c
          if(state.substring(0, 1) == 'c'){
              state = state.substring(1);
          }
@@ -249,7 +250,7 @@
          position['bottom'] = 3;
          position['left'] = 4;
 
-         // We create the new state
+         // Create the new state
          var stateBefore = state.substr(0, position[direction] - 1);
          var stateAfter = state.substring(position[direction]);
          var state = stateBefore + '0' + stateAfter;
@@ -272,7 +273,7 @@
      
      this.transpierce = function(point1, point2){
 
-         // We extract the coordinates of each points
+         // Extract the coordinates of each points
          p1Index = point1.lastIndexOf('_');
          p2Index = point2.lastIndexOf('_');
          p1 = [];
@@ -282,11 +283,11 @@
          p1['y'] = parseInt(point1.substring(p1Index + 1));
          p2['y'] = parseInt(point2.substring(p2Index + 1));
 
-         // We initialize the coordonate of the door to break
+         // Initialize the coordonate of the door to break
          var x = p1['x'] * this.size + this.borderWidth;
          var y = p1['y'] * this.size + this.borderWidth;
 
-         // We establish the position of the door to break
+         // Establish the position of the door to break
          if (p1['x'] == p2['x']) {
              if (p2['y'] < p1['y']) { // Top
                  p1Direction = 'top';
@@ -311,11 +312,11 @@
              }
          }
 
-         // We change the state of cells
+         // Change the state of cells
          this.cells[p1['x']][p1['y']] = 'c' + this.setState(this.cells[p1['x']][p1['y']], p1Direction);
          this.cells[p2['x']][p2['y']] = 'c' + this.setState(this.cells[p2['x']][p2['y']], p2Direction);
 
-         // We break the door
+         // Break the door
          this.canvas.clearRect(x, y, this.size - (this.borderWidth), this.size - (this.borderWidth));
 
      }
@@ -327,35 +328,169 @@
      
 
      /**
-      * We go back to find a new cell
+      * Go back to find a new cell
       * 
       */
      
-     this.goBack = function () {
+     this.goBack = function(){
          
          // If we are not come back at the starting point
-         if (!this.indexGoBack == 0) {
+         if(!this.indexGoBack == 0){
              
-             // We take the index of our course
+             // Take the index of our course
              this.indexGoBack = this.indexGoBack - 1;
              
-             // We establish the coordonate of the next cell to visit
+             // Establish the coordonate of the next cell to visit
              var cell = this.cache[this.indexGoBack];
              var index = cell.lastIndexOf('_');
              var x = cell.substr(0, index);
              var y = cell.substring(index + 1);
              
-             // We jump to this cell
+             // Jump to this cell
              this.jump(x, y);
              
          }
          
      }
      
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Get informations about the labyrinth for the gameplay module
+      * 
+      */
+     
+     this.getInformations = function(){
+         
+         var informations = {
+             'startingCell' : this.startingCell,
+             'endingCell' : this.endingCell,
+             'cells' : this.cells,
+             'sizeCell' : this.size
+         }
+         
+         return informations;
+         
+     }
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
  }
 
  module.exports = Constructor;
 },{}],2:[function(require,module,exports){
+ /**
+  * Labyrinth Plugin - Gameplay Module
+  * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
+  * HETIC P2019
+  *
+  * Copyright 2015
+  * Released under the MIT license
+  * http://opensource.org/licenses/MIT
+  *
+  * Date of creative : 2015-04-14
+  * Update : 2015-04-14
+  */
+
+ var Gameplay = function(){
+     
+     this.$player;
+     this.sizePlayer;
+     this.sizeCell;
+     this.startingCell;
+     this.currentCell;
+     this.endingCell;
+     this.cells;
+     
+     this.init = function(element, size, options){
+         
+         this.$player = element;
+         this.sizePlayer = size;
+         this.sizeCell = options['sizeCell'];
+         this.startingCell = options['startingCell'];
+         this.endingCell = options['endingCell'];
+         this.cells = options['cells'];
+         this.currentCell = this.startingCell;
+         
+         var index = this.startingCell.lastIndexOf('_');
+         var x = this.startingCell.substr(0, index);
+         var y = this.startingCell.substring(index + 1);
+         
+         var addPixels = (parseInt(this.sizeCell) - parseInt(this.sizePlayer)) / 2;
+         
+         this.$player.css({
+            left : Math.floor((x * this.sizeCell + addPixels)) - 1 + 'px',
+            top : Math.floor((y * this.sizeCell + addPixels)) - 1 + 'px'
+         });
+         
+         
+     }
+     
+     this.move = function(e){
+         
+        var index = this.currentCell.lastIndexOf('_');
+        var x = this.currentCell.substr(0, index);
+        var y = this.currentCell.substring(index + 1);
+        
+        var state = this.cells[x][y].substring(1);
+        console.log(state);
+         
+        var top = parseInt(this.$player.css('top'));
+        var left = parseInt(this.$player.css('left'));
+        this.sizeCell = parseInt(this.sizeCell);
+        
+        if(e.keyCode == 38){ //Top
+            if(state.substring(0,1) == 0){
+                top -= this.sizeCell;
+                y -= 1;
+            }
+        }
+
+        else if(e.keyCode == 39){ // Right
+            if(state.substring(1,2) == 0){
+                left += this.sizeCell;
+                x += 1;
+            }
+        }
+        
+        else if(e.keyCode == 40){ // Bottom
+            if(state.substring(2,3) == 0){
+                top += this.sizeCell;
+                y += 1;
+            }
+        }
+        
+        else if(e.keyCode == 37){ // Left
+            if(state.substring(3,4) == 0){
+                left -= this.sizeCell;
+                x -= 1;
+            }
+        }
+         
+        this.currentCell = x + '_' + y;
+         
+        this.$player.css({
+            top : top + 'px',
+            left : left + 'px'
+        });
+         
+     }
+     
+     
+     
+ }
+ 
+ module.exports = Gameplay;
+},{}],3:[function(require,module,exports){
  (function ($){
 
     /**
@@ -373,23 +508,65 @@
 
     $.fn.labyrinth = function(options){
         
-        // We construct the labyrinth
+        
+        /**
+         * Import and initialize the constructor
+         * 
+         */
+        
         $(this).prepend('<canvas class="labyrinth__canvas" width="200" height="200"></canvas>');
+        $(this).css('position', 'relative');
+        
         var Constructor = require('./constructor.js');
         var Labyrinth = new Constructor();
+        
         Labyrinth.init(options['size']);
         Labyrinth.build();
+     
+
+     
+
+        /* ------------------------------------- */
+
+
+
+        /**
+         * Import and initialize the gameplay
+         * 
+         */
+     
+        var options = Labyrinth.getInformations();
+        var size = options['sizeCell'] * .25;
+            
+        $(this).append('<svg class="labyrinth__player" height="' + size * 2 + '" width="' + size * 2 + '"><circle cy="' + size + '" cx="' + size + '" r="' + size + '" fill="red" /></svg>');
+        $(this).find('.labyrinth__player').css({
+            'position' : 'absolute',
+            'top' : 0,
+            'left' : 0
+        });
         
-        // Start the gameplau
+        var Gameplay = require('./gameplay.js');
+        var Gameplay = new Gameplay();
+        
+        Gameplay.init($('.labyrinth__player'), size, options);
+     
+        $(document).keydown(function(e){
+            Gameplay.move(e);  
+        });
         
         
-         // this.$container.append('<svg height="100" width="100"><circle cx="' + startPointX * this.size + '" cy="' + startPointY * this.size + '" r="' + this.sizeUser / 2 + '" fill="red" /></svg>');
+     
+
+        /* ------------------------------------- */
+     
+        
+        
     };
 
     module.exports = $.fn.labyrinth;
 
  }(jQuery));
-},{"./constructor.js":1}],3:[function(require,module,exports){
+},{"./constructor.js":1,"./gameplay.js":2}],4:[function(require,module,exports){
     /**
      * Labyrinthe
      *
@@ -398,7 +575,7 @@
     var labyrinth = require('./LabyrinthPlugin/index.js');
 
     $('.labyrinth').labyrinth({
-        size : 15,
+        size : 8,
     });
 
-},{"./LabyrinthPlugin/index.js":2}]},{},[3])
+},{"./LabyrinthPlugin/index.js":3}]},{},[4])

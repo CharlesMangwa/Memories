@@ -6,5 +6,5 @@
     var labyrinth = require('./LabyrinthPlugin/index.js');
 
     $('.labyrinth').labyrinth({
-        size : 15,
+        size : 8,
     });

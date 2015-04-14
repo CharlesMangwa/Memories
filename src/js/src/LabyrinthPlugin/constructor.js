@@ -1,5 +1,5 @@
  /**
-  * Labyrinth Plugin - Constructor
+  * Labyrinth Plugin - Constructor Module
   * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
   * HETIC P2019
   *
@@ -95,13 +95,13 @@
      
      this.build = function(){
          
-         // We take the position of the starting point
+         // Take the position of the starting point
          var index = this.startingCell.lastIndexOf('_');
          var x = this.startingCell.substr(0, index);
          var y = this.startingCell.substring(index + 1);
          this.cache.push(x + '_' + y);
          
-         // And we begin with the first cell
+         // Begin with the first cell
          this.jump(x, y);
          
      }
@@ -155,7 +155,7 @@
          // If there are no new cells around
          if(cellsAround.length == 0){
              
-             // We create the ending point if it has not been created before
+             // Create the ending point if it has not been created before
              if(!this.endingCell){
                  var c = this.canvas;
                  c.fillStyle = 'blue';
@@ -163,7 +163,7 @@
                  this.endingCell = this.currentCell;
              }
 
-             // We come back
+             // Come back
              if(this.currentCell != this.startingCell){
                  this.goBack();
              }
@@ -176,17 +176,17 @@
              // Randomly, we select an another cell
              var nextCell = cellsAround[Math.floor(Math.random() * cellsAround.length)];
              
-             // We move to this new cell
+             // Move to this new cell
              this.currentCell = nextCell;
              
-             // We transpierce a door
+             // Transpierce a door
              this.transpierce((x + '_' + y), nextCell);
              
-             // We save the passage on this cell 
+             // Save the passage on this cell 
              this.cache.push(x + '_' + y);
              this.indexGoBack = this.count - 1;
              
-             // Then we jump by recursion to an another cell
+             // Jump by recursion to an another cell
              this.jump(nextCell.substr(0, nextCell.lastIndexOf('_')), nextCell.substring(nextCell.lastIndexOf('_') + 1));
          }
      }
@@ -231,12 +231,13 @@
      /**
       * Change the state of a cell
       * @params : the current state of the cell and the direction to transpierce
+      * @return : new state of cell
       * 
       */
      
      this.setState = function (state, direction) {
 
-         // We delete the letter c
+         // Delete the letter c
          if(state.substring(0, 1) == 'c'){
              state = state.substring(1);
          }
@@ -248,7 +249,7 @@
          position['bottom'] = 3;
          position['left'] = 4;
 
-         // We create the new state
+         // Create the new state
          var stateBefore = state.substr(0, position[direction] - 1);
          var stateAfter = state.substring(position[direction]);
          var state = stateBefore + '0' + stateAfter;
@@ -271,7 +272,7 @@
      
      this.transpierce = function(point1, point2){
 
-         // We extract the coordinates of each points
+         // Extract the coordinates of each points
          p1Index = point1.lastIndexOf('_');
          p2Index = point2.lastIndexOf('_');
          p1 = [];
@@ -281,11 +282,11 @@
          p1['y'] = parseInt(point1.substring(p1Index + 1));
          p2['y'] = parseInt(point2.substring(p2Index + 1));
 
-         // We initialize the coordonate of the door to break
+         // Initialize the coordonate of the door to break
          var x = p1['x'] * this.size + this.borderWidth;
          var y = p1['y'] * this.size + this.borderWidth;
 
-         // We establish the position of the door to break
+         // Establish the position of the door to break
          if (p1['x'] == p2['x']) {
              if (p2['y'] < p1['y']) { // Top
                  p1Direction = 'top';
@@ -310,11 +311,11 @@
              }
          }
 
-         // We change the state of cells
+         // Change the state of cells
          this.cells[p1['x']][p1['y']] = 'c' + this.setState(this.cells[p1['x']][p1['y']], p1Direction);
          this.cells[p2['x']][p2['y']] = 'c' + this.setState(this.cells[p2['x']][p2['y']], p2Direction);
 
-         // We break the door
+         // Break the door
          this.canvas.clearRect(x, y, this.size - (this.borderWidth), this.size - (this.borderWidth));
 
      }
@@ -326,30 +327,61 @@
      
 
      /**
-      * We go back to find a new cell
+      * Go back to find a new cell
       * 
       */
      
-     this.goBack = function () {
+     this.goBack = function(){
          
          // If we are not come back at the starting point
-         if (!this.indexGoBack == 0) {
+         if(!this.indexGoBack == 0){
              
-             // We take the index of our course
+             // Take the index of our course
              this.indexGoBack = this.indexGoBack - 1;
              
-             // We establish the coordonate of the next cell to visit
+             // Establish the coordonate of the next cell to visit
              var cell = this.cache[this.indexGoBack];
              var index = cell.lastIndexOf('_');
              var x = cell.substr(0, index);
              var y = cell.substring(index + 1);
              
-             // We jump to this cell
+             // Jump to this cell
              this.jump(x, y);
              
          }
          
      }
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Get informations about the labyrinth for the gameplay module
+      * 
+      */
+     
+     this.getInformations = function(){
+         
+         var informations = {
+             'startingCell' : this.startingCell,
+             'endingCell' : this.endingCell,
+             'cells' : this.cells,
+             'sizeCell' : this.size
+         }
+         
+         return informations;
+         
+     }
+     
+
+     
+     
+     /* ------------------------------------- */
+     
      
  }
 
