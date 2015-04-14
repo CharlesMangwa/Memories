@@ -192,10 +192,10 @@
   */
 
  gulp.task('javascript', function () {
-     gulp.src(srcDir + 'js/app.js', { read: false })
+     gulp.src(srcDir + 'js/src/app.js', { read: false })
          .pipe(browserify())
          .on('error', gutil.log)
-         .pipe(gulp.dest(srcDir + 'js/'))
+         .pipe(gulp.dest(srcDir + 'js/build/'))
          .pipe(reload({ stream:true }));
  });
 
