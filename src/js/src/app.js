@@ -1,10 +1,16 @@
-    /**
-     * Labyrinthe
-     *
-     */
+ 
+ /**
+  * Create a labyrinth
+  *
+  */
 
-    var labyrinth = require('./LabyrinthPlugin/index.js');
+ var labyrinth = require('./Labyrinth/index.js');
 
-    $('.labyrinth').labyrinth({
-        size : 8,
-    });
+ $('.labyrinth').labyrinth({
+     grid: 15,
+     sizeCell: 60,
+     borderWidthCell: 4, // TODO
+     borderColorCell: '#b45252',
+     sizePlayer: 10,
+     colorPlayer: '#9d5e82'
+ });

@@ -32,8 +32,9 @@
      this.startingCell = '0_0';
      this.endingCell = false;
      
-     this.size = 30;
-     this.borderWidth = 4;
+     this.sizeCell = 20;
+     this.borderWidth = 5;
+     this.borderColor = '#00';
      
      this.cache = [];
      this.count = 0;
@@ -47,15 +48,20 @@
 
      /**
       * Initialize the labyrinth
-      * @params : the size of the labyrinth 
+      * @params : the sizeCell of the labyrinth 
       *
       */
      
-     this.init = function(size){
-
+     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell){
+         
+         // Initialize options of labyrinth
+         this.borderColor = borderColorCell;
+         this.borderWidth = borderWidthCell;
+         this.sizeCell = sizeCell;
+         
          // Initialize the array  
-         this.rows = size;
-         this.cols = size;
+         this.rows = grid;
+         this.cols = grid;
          for(var col = 0; col < this.cols; col++){
              this.cells[col] = [];
              for (var row = 0; row < this.rows; row++) {
@@ -65,8 +71,8 @@
          
          // Initialize the dimensions of the canvas  
          $('.labyrinth__canvas').prop({
-             width: this.size * this.cols + 5,
-             height: this.size * this.rows + 5,
+             width: this.sizeCell * this.cols + 5,
+             height: this.sizeCell * this.rows + 5,
          });
 
          // Draw the labyrinth
@@ -74,7 +80,8 @@
          for(col = 0; col < this.cols; col++){
              for(row = 0; row < this.rows; row++){
                  c.lineWidth = this.borderWidth;
-                 c.strokeRect(row * this.size + 2, col * this.size + 2, this.size, this.size);
+                 c.strokeStyle = this.borderColor;
+                 c.strokeRect(row * this.sizeCell + 2, col * this.sizeCell + 2, this.sizeCell, this.sizeCell);
              }
          }
          
@@ -160,7 +167,7 @@
              if(!this.endingCell){
                  var c = this.canvas;
                  c.fillStyle = 'blue';
-                 c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.size + 2 + (this.size - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.size + 2 + (this.size - 10) / 2, 10, 10);
+                 c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
                  this.endingCell = this.currentCell;
              }
 
@@ -284,31 +291,31 @@
          p2['y'] = parseInt(point2.substring(p2Index + 1));
 
          // Initialize the coordonate of the door to break
-         var x = p1['x'] * this.size + this.borderWidth;
-         var y = p1['y'] * this.size + this.borderWidth;
+         var x = p1['x'] * this.sizeCell + this.borderWidth;
+         var y = p1['y'] * this.sizeCell + this.borderWidth;
 
          // Establish the position of the door to break
          if (p1['x'] == p2['x']) {
              if (p2['y'] < p1['y']) { // Top
                  p1Direction = 'top';
                  p2Direction = 'bottom';
-                 y -= (this.size / 2);
+                 y -= (this.sizeCell / 2);
              }
              else{ // Bottom
                  p1Direction = 'bottom';
                  p2Direction = 'top';
-                 y += (this.size / 2);
+                 y += (this.sizeCell / 2);
              }
          } else {
              if(p2['x'] < p1['x']){ // Left
                  p1Direction = 'left';
                  p2Direction = 'right';
-                 x -= (this.size / 2);
+                 x -= (this.sizeCell / 2);
              }
              else{ // Right
                  p1Direction = 'right';
                  p2Direction = 'left';
-                 x += (this.size / 2);
+                 x += (this.sizeCell / 2);
              }
          }
 
@@ -317,8 +324,10 @@
          this.cells[p2['x']][p2['y']] = 'c' + this.setState(this.cells[p2['x']][p2['y']], p2Direction);
 
          // Break the door
-         this.canvas.clearRect(x, y, this.size - (this.borderWidth), this.size - (this.borderWidth));
-
+         this.canvas.clearRect(x, y, this.sizeCell - (this.borderWidth), this.sizeCell - (this.borderWidth));
+         
+         
+         console.log(this.sizeCell - (this.borderWidth));
      }
 
      
@@ -371,7 +380,8 @@
              'startingCell' : this.startingCell,
              'endingCell' : this.endingCell,
              'cells' : this.cells,
-             'sizeCell' : this.size
+             'sizeCell' : this.sizeCell,
+             'borderWidthCell' : this.borderWidth,
          }
          
          return informations;
@@ -403,6 +413,12 @@
 
  var Gameplay = function(){
      
+     
+     /**
+      * Variables
+      *
+      */
+     
      this.$player;
      this.sizePlayer;
      this.sizeCell;
@@ -410,6 +426,18 @@
      this.currentCell;
      this.endingCell;
      this.cells;
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Initialize the player
+      * @params : the element, the size and options of the labyrinth
+      *
+      */
      
      this.init = function(element, size, options){
          
@@ -425,8 +453,8 @@
          var x = this.startingCell.substr(0, index);
          var y = this.startingCell.substring(index + 1);
          
-         var addPixels = (parseInt(this.sizeCell) - parseInt(this.sizePlayer)) / 2;
-         
+         var addPixels = (options['borderWidthCell']) + ((parseInt(this.sizeCell)) - parseInt(this.sizePlayer)) / 2;
+          
          this.$player.css({
             left : Math.floor((x * this.sizeCell + addPixels)) - 1 + 'px',
             top : Math.floor((y * this.sizeCell + addPixels)) - 1 + 'px'
@@ -434,59 +462,99 @@
          
          
      }
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Mode the player
+      * @params : event of keydown 
+      *
+      */
      
      this.move = function(e){
          
+        // Establish the state of the current cell
         var index = this.currentCell.lastIndexOf('_');
-        var x = this.currentCell.substr(0, index);
-        var y = this.currentCell.substring(index + 1);
-        
+        var x = parseInt(this.currentCell.substr(0, index));
+        var y = parseInt(this.currentCell.substring(index + 1));
         var state = this.cells[x][y].substring(1);
-        console.log(state);
-         
+        
+        // Initial position of the player 
         var top = parseInt(this.$player.css('top'));
         var left = parseInt(this.$player.css('left'));
-        this.sizeCell = parseInt(this.sizeCell);
         
+        // Move the player by keypress
         if(e.keyCode == 38){ //Top
             if(state.substring(0,1) == 0){
                 top -= this.sizeCell;
-                y -= 1;
+                y = (y - 1);
             }
         }
-
         else if(e.keyCode == 39){ // Right
             if(state.substring(1,2) == 0){
                 left += this.sizeCell;
-                x += 1;
+                x = (x + 1);
             }
         }
-        
         else if(e.keyCode == 40){ // Bottom
             if(state.substring(2,3) == 0){
                 top += this.sizeCell;
-                y += 1;
+                y = (y + 1);
             }
         }
-        
         else if(e.keyCode == 37){ // Left
             if(state.substring(3,4) == 0){
                 left -= this.sizeCell;
-                x -= 1;
+                x = (x - 1);
             }
         }
          
-        this.currentCell = x + '_' + y;
+        // Set the new current cell
+        this.currentCell = parseInt(x) + '_' + parseInt(y);
          
+        // Mode on the canvas the player
         this.$player.css({
             top : top + 'px',
             left : left + 'px'
         });
          
+        // Check if the player has winned
+        if(this.win()){
+            console.log('Win !!');
+        }
      }
+
      
      
+     /* ------------------------------------- */
      
+     
+
+     /**
+      * Check if the player has winned
+      * @return true if the player has winned, else false
+      *
+      */
+     
+     this.win = function(){
+         
+         // Check if the currentCell is the same that the ending Cell
+         if(this.currentCell == this.endingCell){
+            return true;
+         }
+         return false;
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+    }
  }
  
  module.exports = Gameplay;
@@ -514,13 +582,16 @@
          * 
          */
         
+        // Create the canvas element
         $(this).prepend('<canvas class="labyrinth__canvas" width="200" height="200"></canvas>');
         $(this).css('position', 'relative');
         
+        // Import the constructor
         var Constructor = require('./constructor.js');
         var Labyrinth = new Constructor();
         
-        Labyrinth.init(options['size']);
+        // Build the labyrinth
+        Labyrinth.init(options['grid'], options['sizeCell'], options['borderWidthCell'], options['borderColorCell']);
         Labyrinth.build();
      
 
@@ -534,22 +605,26 @@
          * Import and initialize the gameplay
          * 
          */
-     
+        
+        // Get options for the gameplay
+        var color = options['colorPlayer'];
+        var size = options['sizePlayer'];
         var options = Labyrinth.getInformations();
-        var size = options['sizeCell'] * .25;
-            
-        $(this).append('<svg class="labyrinth__player" height="' + size * 2 + '" width="' + size * 2 + '"><circle cy="' + size + '" cx="' + size + '" r="' + size + '" fill="red" /></svg>');
+        
+        // Create the player element
+        $(this).append('<svg class="labyrinth__player" height="' + size + '" width="' + size + '"><circle cy="' + size / 2 + '" cx="' + size / 2 + '" r="' + size / 2  + '" fill="' + color + '" /></svg>');
         $(this).find('.labyrinth__player').css({
             'position' : 'absolute',
             'top' : 0,
             'left' : 0
         });
         
+        // Create the player
         var Gameplay = require('./gameplay.js');
         var Gameplay = new Gameplay();
-        
-        Gameplay.init($('.labyrinth__player'), size, options);
-     
+        Gameplay.init($('.labyrinth__player'), size,options);
+       
+        // On keydown, move the player
         $(document).keydown(function(e){
             Gameplay.move(e);  
         });
@@ -567,15 +642,20 @@
 
  }(jQuery));
 },{"./constructor.js":1,"./gameplay.js":2}],4:[function(require,module,exports){
-    /**
-     * Labyrinthe
-     *
-     */
+ 
+ /**
+  * Create a labyrinth
+  *
+  */
 
-    var labyrinth = require('./LabyrinthPlugin/index.js');
+ var labyrinth = require('./Labyrinth/index.js');
 
-    $('.labyrinth').labyrinth({
-        size : 8,
-    });
-
-},{"./LabyrinthPlugin/index.js":3}]},{},[4])
+ $('.labyrinth').labyrinth({
+     grid: 15,
+     sizeCell: 60,
+     borderWidthCell: 4, // TODO
+     borderColorCell: '#b45252',
+     sizePlayer: 10,
+     colorPlayer: '#9d5e82'
+ });
+},{"./Labyrinth/index.js":3}]},{},[4])

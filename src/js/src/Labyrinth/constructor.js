@@ -31,8 +31,9 @@
      this.startingCell = '0_0';
      this.endingCell = false;
      
-     this.size = 30;
-     this.borderWidth = 4;
+     this.sizeCell = 20;
+     this.borderWidth = 5;
+     this.borderColor = '#00';
      
      this.cache = [];
      this.count = 0;
@@ -46,15 +47,20 @@
 
      /**
       * Initialize the labyrinth
-      * @params : the size of the labyrinth 
+      * @params : the sizeCell of the labyrinth 
       *
       */
      
-     this.init = function(size){
-
+     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell){
+         
+         // Initialize options of labyrinth
+         this.borderColor = borderColorCell;
+         this.borderWidth = borderWidthCell;
+         this.sizeCell = sizeCell;
+         
          // Initialize the array  
-         this.rows = size;
-         this.cols = size;
+         this.rows = grid;
+         this.cols = grid;
          for(var col = 0; col < this.cols; col++){
              this.cells[col] = [];
              for (var row = 0; row < this.rows; row++) {
@@ -64,8 +70,8 @@
          
          // Initialize the dimensions of the canvas  
          $('.labyrinth__canvas').prop({
-             width: this.size * this.cols + 5,
-             height: this.size * this.rows + 5,
+             width: this.sizeCell * this.cols + 5,
+             height: this.sizeCell * this.rows + 5,
          });
 
          // Draw the labyrinth
@@ -73,7 +79,8 @@
          for(col = 0; col < this.cols; col++){
              for(row = 0; row < this.rows; row++){
                  c.lineWidth = this.borderWidth;
-                 c.strokeRect(row * this.size + 2, col * this.size + 2, this.size, this.size);
+                 c.strokeStyle = this.borderColor;
+                 c.strokeRect(row * this.sizeCell + 2, col * this.sizeCell + 2, this.sizeCell, this.sizeCell);
              }
          }
          
@@ -159,7 +166,7 @@
              if(!this.endingCell){
                  var c = this.canvas;
                  c.fillStyle = 'blue';
-                 c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.size + 2 + (this.size - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.size + 2 + (this.size - 10) / 2, 10, 10);
+                 c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
                  this.endingCell = this.currentCell;
              }
 
@@ -283,31 +290,31 @@
          p2['y'] = parseInt(point2.substring(p2Index + 1));
 
          // Initialize the coordonate of the door to break
-         var x = p1['x'] * this.size + this.borderWidth;
-         var y = p1['y'] * this.size + this.borderWidth;
+         var x = p1['x'] * this.sizeCell + this.borderWidth;
+         var y = p1['y'] * this.sizeCell + this.borderWidth;
 
          // Establish the position of the door to break
          if (p1['x'] == p2['x']) {
              if (p2['y'] < p1['y']) { // Top
                  p1Direction = 'top';
                  p2Direction = 'bottom';
-                 y -= (this.size / 2);
+                 y -= (this.sizeCell / 2);
              }
              else{ // Bottom
                  p1Direction = 'bottom';
                  p2Direction = 'top';
-                 y += (this.size / 2);
+                 y += (this.sizeCell / 2);
              }
          } else {
              if(p2['x'] < p1['x']){ // Left
                  p1Direction = 'left';
                  p2Direction = 'right';
-                 x -= (this.size / 2);
+                 x -= (this.sizeCell / 2);
              }
              else{ // Right
                  p1Direction = 'right';
                  p2Direction = 'left';
-                 x += (this.size / 2);
+                 x += (this.sizeCell / 2);
              }
          }
 
@@ -316,8 +323,10 @@
          this.cells[p2['x']][p2['y']] = 'c' + this.setState(this.cells[p2['x']][p2['y']], p2Direction);
 
          // Break the door
-         this.canvas.clearRect(x, y, this.size - (this.borderWidth), this.size - (this.borderWidth));
-
+         this.canvas.clearRect(x, y, this.sizeCell - (this.borderWidth), this.sizeCell - (this.borderWidth));
+         
+         
+         console.log(this.sizeCell - (this.borderWidth));
      }
 
      
@@ -370,7 +379,8 @@
              'startingCell' : this.startingCell,
              'endingCell' : this.endingCell,
              'cells' : this.cells,
-             'sizeCell' : this.size
+             'sizeCell' : this.sizeCell,
+             'borderWidthCell' : this.borderWidth,
          }
          
          return informations;

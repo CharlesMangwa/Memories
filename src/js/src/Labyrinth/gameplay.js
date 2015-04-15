@@ -13,6 +13,12 @@
 
  var Gameplay = function(){
      
+     
+     /**
+      * Variables
+      *
+      */
+     
      this.$player;
      this.sizePlayer;
      this.sizeCell;
@@ -20,6 +26,18 @@
      this.currentCell;
      this.endingCell;
      this.cells;
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Initialize the player
+      * @params : the element, the size and options of the labyrinth
+      *
+      */
      
      this.init = function(element, size, options){
          
@@ -35,8 +53,8 @@
          var x = this.startingCell.substr(0, index);
          var y = this.startingCell.substring(index + 1);
          
-         var addPixels = (parseInt(this.sizeCell) - parseInt(this.sizePlayer)) / 2;
-         
+         var addPixels = (options['borderWidthCell']) + ((parseInt(this.sizeCell)) - parseInt(this.sizePlayer)) / 2;
+          
          this.$player.css({
             left : Math.floor((x * this.sizeCell + addPixels)) - 1 + 'px',
             top : Math.floor((y * this.sizeCell + addPixels)) - 1 + 'px'
@@ -44,59 +62,99 @@
          
          
      }
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Mode the player
+      * @params : event of keydown 
+      *
+      */
      
      this.move = function(e){
          
+        // Establish the state of the current cell
         var index = this.currentCell.lastIndexOf('_');
-        var x = this.currentCell.substr(0, index);
-        var y = this.currentCell.substring(index + 1);
-        
+        var x = parseInt(this.currentCell.substr(0, index));
+        var y = parseInt(this.currentCell.substring(index + 1));
         var state = this.cells[x][y].substring(1);
-        console.log(state);
-         
+        
+        // Initial position of the player 
         var top = parseInt(this.$player.css('top'));
         var left = parseInt(this.$player.css('left'));
-        this.sizeCell = parseInt(this.sizeCell);
         
+        // Move the player by keypress
         if(e.keyCode == 38){ //Top
             if(state.substring(0,1) == 0){
                 top -= this.sizeCell;
-                y -= 1;
+                y = (y - 1);
             }
         }
-
         else if(e.keyCode == 39){ // Right
             if(state.substring(1,2) == 0){
                 left += this.sizeCell;
-                x += 1;
+                x = (x + 1);
             }
         }
-        
         else if(e.keyCode == 40){ // Bottom
             if(state.substring(2,3) == 0){
                 top += this.sizeCell;
-                y += 1;
+                y = (y + 1);
             }
         }
-        
         else if(e.keyCode == 37){ // Left
             if(state.substring(3,4) == 0){
                 left -= this.sizeCell;
-                x -= 1;
+                x = (x - 1);
             }
         }
          
-        this.currentCell = x + '_' + y;
+        // Set the new current cell
+        this.currentCell = parseInt(x) + '_' + parseInt(y);
          
+        // Mode on the canvas the player
         this.$player.css({
             top : top + 'px',
             left : left + 'px'
         });
          
+        // Check if the player has winned
+        if(this.win()){
+            console.log('Win !!');
+        }
      }
+
      
      
+     /* ------------------------------------- */
      
+     
+
+     /**
+      * Check if the player has winned
+      * @return true if the player has winned, else false
+      *
+      */
+     
+     this.win = function(){
+         
+         // Check if the currentCell is the same that the ending Cell
+         if(this.currentCell == this.endingCell){
+            return true;
+         }
+         return false;
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+    }
  }
  
  module.exports = Gameplay;
