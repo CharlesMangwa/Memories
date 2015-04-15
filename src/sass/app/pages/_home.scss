@@ -5,7 +5,14 @@
   */ 
  
  .home{
- 
+     .container{
+         width: rem(930px);    height: rem(360px);
+         margin: auto;
+         
+         .Stats,.Event, .Championship{
+             float: left;
+         }
+     }
  }
 
  /* ------------------------------------- */

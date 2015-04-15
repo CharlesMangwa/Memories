@@ -30,7 +30,7 @@
         var Labyrinth = new Constructor();
         
         // Build the labyrinth
-        Labyrinth.init(options['grid'], options['sizeCell'], options['borderWidthCell'], options['borderColorCell']);
+        Labyrinth.init(options['grid'], options['sizeCell'], options['borderWidthCell'], options['borderColorCell'], options['level']);
         Labyrinth.build();
      
 

@@ -1,0 +1,36 @@
+
+ /**
+  * Stats Component Style
+  *
+  */ 
+ 
+ .Stats{
+     padding-top: rem(40px);
+     width: rem(650px);    height: rem(360px);
+     background-color: $tertiary-color;
+     text-align: center;
+     
+     
+     &__resultat{
+         margin-top: rem(30px);
+         font-size: rem(25px);
+         
+         &__position{
+             background: white;
+             border-radius: 50%;
+             font-size: rem(27px);
+             padding: rem(4px) rem(11px);
+             font-family: 'Grafolita';
+             
+             sup:before{
+                 content: ' ';
+             }
+             
+             & + &{
+                 margin-left: rem(50px);   
+             }
+         }
+     }
+ }
+
+ /* ------------------------------------- */

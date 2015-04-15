@@ -46,28 +46,9 @@
     if( !( "querySelector" in doc ) ){
         return;
     }
-    
-    /*var supportsWoff2 = (function( win ){
-        if( !( "FontFace" in win ) ) {
-            return false;
-        }
-        var f = new win.FontFace( "t", 'url( "data:application/font-woff2," ) format( "woff2" )', {} );
-        f.load().catch(function() {});
-        return f.status == 'loading';
-    })( window );*/
 
-    
-    var ua = navigator.userAgent,
-        fontDirUrl = './css/fonts',
-        fontFileUrl = fontDirUrl + '-woff.css';
-
-    /*if( supportsWoff2 ) {
-        fontFileUrl = fontDirUrl + '--woff2.css';
-    }*/
-    
-    if( ua.indexOf( "Android" ) > -1 && ua.indexOf( "like Gecko" ) > -1 && ua.indexOf( "Chrome" ) === -1 ){
-        fontFileUrl = fontDirUrl + '-ttf.css';
-    }
+    var fontDirUrl = './css/fonts',
+        fontFileUrl = fontDirUrl + '-otf.css';
 
     loadCSS( fontFileUrl );
 

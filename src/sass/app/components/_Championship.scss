@@ -1,0 +1,49 @@
+
+ /**
+  * Championship Component Style
+  *
+  */ 
+ 
+ .Championship{
+     width: rem(280px);    height: rem(180px);
+     padding-top: rem(28px);
+     background-color: $quadrary-color;
+     text-align: center;
+     cursor: pointer;
+     color: rgba(black,.8);
+     
+     &__resultat{
+         margin-top: rem(10px);
+         font-size: rem(25px);
+         
+         &__position{
+             background: white;
+             border-radius: 50%;
+             font-size: rem(27px);
+             padding: rem(4px) rem(11px);
+             font-family: 'Grafolita';
+             
+             sup:before{
+                 content: ' ';
+             }
+         }
+     }
+     
+     &__link{
+         &:before{
+             content:'> ';   
+         }
+         
+         display: block;
+         position: relative;
+         margin-top: rem(22px);
+         font-size: rem(20px);
+         text-transform: uppercase;
+     }
+     
+     &:hover .Championship__link{
+         color: rgba(black,.4);
+     }
+ }
+
+ /* ------------------------------------- */

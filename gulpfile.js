@@ -77,11 +77,11 @@
 
 
  /**
-  * Config prod folder
+  * Config distribution folder
   *
   * @var string
   */
- var prodDir = __dirname + '/prod/';
+ var prodDir = __dirname + '/dist/';
 
 
 
@@ -218,16 +218,11 @@
   */
 
  gulp.task('fonts', function () {
-     // .woff
-     gulp.src(srcDir + 'fonts/**/*.ttf')
-        .pipe(ttf2woff())
-        .pipe(gulp.dest(srcDir + 'fonts/'));    
      
      // base64 if ttf or woff
      gulp.src(srcDir + 'fonts/*.css')
-        .pipe(base64())
         .pipe(base64({
-            extensions: ['woff', 'ttf'],
+            extensions: ['woff', 'ttf', 'otf'],
             maxImageSize: 1200 * 1024
         }))
         .pipe(minifyCSS({
@@ -247,7 +242,7 @@
   */
 
  gulp.task('dev', ['browser_sync', 'sass', 'img', 'javascript'], function () {
-     gulp.watch([srcDir + 'sass/**/*.scss'], ['sass']);
+     gulp.watch([srcDir + 'sass/**/**/*.scss'], ['sass']);
      gulp.watch([srcDir + 'img/**'], ['img']);
      gulp.watch([srcDir + 'js/**/*'], ['javascript']);
      gulp.watch([srcDir + 'img/**', srcDir + 'css/**', srcDir + '*.html'], ['bs-reload']);

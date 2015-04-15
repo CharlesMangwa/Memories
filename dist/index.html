@@ -7,13 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="img/favicon.png" />
         
-        <!-- build:js js/webfontloading.js -->
-        <script src="js/src/webfontloading.js"></script>
-        <!-- endbuild -->
+        <script src="js/webfontloading.js"></script>
         
-        <!-- build:css css/style.min.css -->
-        <link rel="stylesheet" href="css/style.css">
-        <!-- endbuild -->
+        <link rel="stylesheet" href="css/style.min.css">
     </head>
     <body>
         
@@ -28,31 +24,19 @@
         </header>
         
         <div class="Games">
-            <h1 class="Games__title">tous mes jeux</h1>
+            <h2 class="Games__title">tous mes jeux</h2>
             
-            <div class="Games__list Carousel">
-                <div class="Carousel__list">
-                    <a href="labyrinth.html" class="Games__item Carousel__item">
-                        <h3 class="Games__item__name">Labyrinthe</h3>
-                    </a>
-                    <a class="Games__item Carousel__item">
-                        <h3 class="Games__item__name">Les 1001 formes</h3>
-                    </a>
-                    <a class="Games__item Carousel__item G--locked">
-                        <h3 class="Games__item__name">La tape taupe</h3>
-                    </a>
-                    <a class="Games__item Carousel__item G--locked">
-                        <h3 class="Games__item__name">Indiana Papy</h3>
-                    </a>
-                </div>
+            <div class="Games_list">
+                <a class="Games__item">
+                    <h3 class="Games__item__name">Labyrinthe</h3>
+                </a>
+                <a class="Games__item">
+                    <h3 class="Games__item__name">Les 1001 formes</h3>
+                </a>
             </div>
             
-            <div class="Games__control Carousel__control">
-                <div class="Games__pagination Carousel__pagination">
-                    <a role=""button class="Games__page Carousel__page is-active"></a>
-                    <a role=""button class="Games__page Carousel__page"></a>
-                    <a role=""button class="Games__page Carousel__page"></a>
-                </div>
+            <div class="Games_control">
+                
             </div>
             
         </div>
@@ -96,8 +80,6 @@
         
         <script src="vendors/jquery/jquery.js"></script>
         
-        <!-- build:js js/labyrinth.js -->
-        <script src="js/build/app.js"></script>
-        <!-- endbuild -->
+        <script src="js/app.js"></script>
     </body>
 </html>

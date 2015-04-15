@@ -1,24 +1,25 @@
 {
-    "name": "Starter",
-    "version": "1.0.0",
-    "authors": [
-        "Léo LE BRAS <leo.lebrasf@gmail.com>"
-    ],
-    "main": "./src/index.html",
-    "license": "MIT",
-    "ignore": [
+  "name": "Starter",
+  "version": "1.0.0",
+  "authors": [
+    "Léo LE BRAS <leo.lebrasf@gmail.com>"
+  ],
+  "main": "./src/index.html",
+  "license": "MIT",
+  "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
     "tests"
   ],
-    "dependencies": {
-        "jquery": "latest",
-    },
-    "install": {
-        "path": {
-            "js": "src/vendors"
-        }
+  "dependencies": {
+    "jquery": "latest",
+    "jquery-ui": "~1.11.4"
+  },
+  "install": {
+    "path": {
+      "js": "src/vendors"
     }
+  }
 }

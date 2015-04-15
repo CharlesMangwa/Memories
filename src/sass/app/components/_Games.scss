@@ -1,0 +1,88 @@
+
+ /**
+  * Games Component Style
+  *
+  */ 
+ 
+ .Games{
+     min-height: rem(520px);
+     height:calc(100vh - 400px);
+     background-color: $primary-color;
+     padding-top: rem(100px);
+     
+     
+     &__list{
+         width: rem(890px);
+         margin: auto;
+         text-align: center;
+         margin-top: rem(60px);
+         overflow: hidden;
+     }
+     
+     &__item{
+         display: block;
+         position: relative;
+         width: rem(188px);    height: rem(200px);  
+         background-color: #fbfafa;
+         
+         & + &{
+             margin-left: rem(40px);   
+         }
+         
+         &__name{
+             position: absolute;
+             font-size: rem(24px);
+             bottom: 0;
+             width: 100%;
+             padding: rem(20px) 0;
+             background-color: #ededed;
+             text-transform: uppercase;
+             text-align: center;
+         }
+         
+         &:hover{
+             .Games__item__name{
+                 background-color: transparent;
+             }
+         }
+         
+         &.G--locked{
+             height: rem(160px);  
+             text-align: center;
+             background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMjUuMzk4cHgiIGhlaWdodD0iMzMuMDQ0cHgiIHZpZXdCb3g9IjAgMCAyNS4zOTggMzMuMDQ0IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAyNS4zOTggMzMuMDQ0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCgkJPHBhdGggZmlsbD0iIzQ4NDg0OCIgZD0iTTIzLjU5NywxMy4zNDVoLTAuNjQ1di0zLjAxNGMwLTUuNTc0LTQuNDIzLTEwLjIyOS05Ljk1MS0xMC4zMjljLTAuMTUtMC4wMDMtMC40NTMtMC4wMDMtMC42MDQsMA0KCQkJQzYuODY5LDAuMTAyLDIuNDQ2LDQuNzU3LDIuNDQ2LDEwLjMzMXYzLjAxNEgxLjgwMkMwLjgxLDEzLjM0NSwwLDE0LjM2OCwwLDE1LjYzM3YxNS4xMTRjMCwxLjI2MywwLjgxLDIuMjk3LDEuODAyLDIuMjk3aDIxLjc5NQ0KCQkJYzAuOTkyLDAsMS44MDItMS4wMzQsMS44MDItMi4yOTdWMTUuNjMzQzI1LjM5OCwxNC4zNjgsMjQuNTg5LDEzLjM0NSwyMy41OTcsMTMuMzQ1eiBNMTQuNzQxLDIzLjE3NHY0LjU2Nw0KCQkJYzAsMC41MjItMC40MzgsMC45NjUtMC45NjIsMC45NjVoLTIuMTZjLTAuNTI0LDAtMC45NjItMC40NDMtMC45NjItMC45NjV2LTQuNTY3Yy0wLjUwOC0wLjQ5OS0wLjgwMy0xLjE5LTAuODAzLTEuOTU1DQoJCQljMC0xLjQ0OCwxLjExOS0yLjY5MywyLjU0My0yLjc1YzAuMTUtMC4wMDcsMC40NTMtMC4wMDcsMC42MDQsMGMxLjQyNCwwLjA1NywyLjU0MywxLjMwMiwyLjU0MywyLjc1DQoJCQlDMTUuNTQ0LDIxLjk4NCwxNS4yNDksMjIuNjc1LDE0Ljc0MSwyMy4xNzR6IE0xOC43MDksMTMuMzQ1aC01LjcwOGgtMC42MDRINi42ODl2LTMuMDE0YzAtMy4zMiwyLjY5OS02LjA2NSw2LjAxLTYuMDY1DQoJCQlzNi4wMSwyLjc0NSw2LjAxLDYuMDY1VjEzLjM0NUwxOC43MDksMTMuMzQ1eiIvPg0KPC9zdmc+DQo=);
+             background-repeat: no-repeat;
+             background-position: center 34%;
+             
+             .Games__item__name{
+                 background-color: transparent;
+                 bottom: rem(17px);
+             }
+         }
+     }
+     
+     &__pagination{
+         margin-top: rem(50px);
+         text-align: center;
+     }
+     
+     &__page{
+         display: inline-block;
+         @include square(rem(8px));
+         background-color:rgba(black,.4);
+         border-radius: 50%;
+         vertical-align: middle;
+         transition: all ease .3s;
+         cursor: pointer;
+         
+         & + &{
+             margin-left: rem(6px);
+         }
+         
+         &.is-active,&:hover{
+             @include square(rem(13px));   
+             background-color:rgba(black,.6);
+         }
+     }
+ }
+
+ /* ------------------------------------- */

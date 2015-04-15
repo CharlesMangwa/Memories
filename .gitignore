@@ -44,5 +44,6 @@ Temporary Items
 
 node_modules/
 prod/
+src/fonts/
 
 npm-debug.log

@@ -31,6 +31,8 @@
      this.startingCell = '0_0';
      this.endingCell = false;
      
+     this.level = 1;
+     
      this.sizeCell = 20;
      this.borderWidth = 5;
      this.borderColor = '#00';
@@ -51,16 +53,27 @@
       *
       */
      
-     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell){
+     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell, level){
          
          // Initialize options of labyrinth
-         this.borderColor = borderColorCell;
-         this.borderWidth = borderWidthCell;
-         this.sizeCell = sizeCell;
+         if(borderColorCell){
+            this.borderColor = borderColorCell;
+         }
+         if(borderWidthCell){
+            this.borderWidth = borderWidthCell;
+         }
+         if(sizeCell){
+            this.sizeCell = sizeCell;
+         }
+         if(level == 1 && this.level == 2){
+             this.level = level;
+         }
          
          // Initialize the array  
-         this.rows = grid;
-         this.cols = grid;
+         if(grid){
+             this.rows = grid;
+             this.cols = grid;
+         }
          for(var col = 0; col < this.cols; col++){
              this.cells[col] = [];
              for (var row = 0; row < this.rows; row++) {
@@ -163,7 +176,7 @@
          if(cellsAround.length == 0){
              
              // Create the ending point if it has not been created before
-             if(!this.endingCell){
+             if(!this.endingCell && this.level == 1){
                  var c = this.canvas;
                  c.fillStyle = 'blue';
                  c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
@@ -357,6 +370,15 @@
              // Jump to this cell
              this.jump(x, y);
              
+         }  
+         
+         else{
+             if(this.level == 2){
+                 this.endingCell = this.cache[this.cache.length - 1];
+                 var c = this.canvas;
+                 c.fillStyle = 'blue';
+                 c.fillRect(this.endingCell.substr(0, this.endingCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.endingCell.substring(this.endingCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
+             }
          }
          
      }

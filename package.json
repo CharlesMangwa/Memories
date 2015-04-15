@@ -38,6 +38,7 @@
     "gulp-zip": "^2.0.3",
     "imagemin-pngcrush": "^4.0.0",
     "imagemin-pngquant": "^4.0.0",
+    "otf2ttf": "^1.1.2",
     "rimraf": "^2.3.2"
   }
 }

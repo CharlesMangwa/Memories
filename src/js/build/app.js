@@ -32,6 +32,8 @@
      this.startingCell = '0_0';
      this.endingCell = false;
      
+     this.level = 1;
+     
      this.sizeCell = 20;
      this.borderWidth = 5;
      this.borderColor = '#00';
@@ -52,16 +54,27 @@
       *
       */
      
-     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell){
+     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell, level){
          
          // Initialize options of labyrinth
-         this.borderColor = borderColorCell;
-         this.borderWidth = borderWidthCell;
-         this.sizeCell = sizeCell;
+         if(borderColorCell){
+            this.borderColor = borderColorCell;
+         }
+         if(borderWidthCell){
+            this.borderWidth = borderWidthCell;
+         }
+         if(sizeCell){
+            this.sizeCell = sizeCell;
+         }
+         if(level == 1 && this.level == 2){
+             this.level = level;
+         }
          
          // Initialize the array  
-         this.rows = grid;
-         this.cols = grid;
+         if(grid){
+             this.rows = grid;
+             this.cols = grid;
+         }
          for(var col = 0; col < this.cols; col++){
              this.cells[col] = [];
              for (var row = 0; row < this.rows; row++) {
@@ -164,7 +177,7 @@
          if(cellsAround.length == 0){
              
              // Create the ending point if it has not been created before
-             if(!this.endingCell){
+             if(!this.endingCell && this.level == 1){
                  var c = this.canvas;
                  c.fillStyle = 'blue';
                  c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
@@ -358,6 +371,15 @@
              // Jump to this cell
              this.jump(x, y);
              
+         }  
+         
+         else{
+             if(this.level == 2){
+                 this.endingCell = this.cache[this.cache.length - 1];
+                 var c = this.canvas;
+                 c.fillStyle = 'blue';
+                 c.fillRect(this.endingCell.substr(0, this.endingCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.endingCell.substring(this.endingCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
+             }
          }
          
      }
@@ -547,14 +569,15 @@
             return true;
          }
          return false;
+    
+     }
      
-
      
      
      /* ------------------------------------- */
      
      
-    }
+     
  }
  
  module.exports = Gameplay;
@@ -591,7 +614,7 @@
         var Labyrinth = new Constructor();
         
         // Build the labyrinth
-        Labyrinth.init(options['grid'], options['sizeCell'], options['borderWidthCell'], options['borderColorCell']);
+        Labyrinth.init(options['grid'], options['sizeCell'], options['borderWidthCell'], options['borderColorCell'], options['level']);
         Labyrinth.build();
      
 
@@ -650,12 +673,44 @@
 
  var labyrinth = require('./Labyrinth/index.js');
 
- $('.labyrinth').labyrinth({
-     grid: 15,
-     sizeCell: 60,
-     borderWidthCell: 4, // TODO
-     borderColorCell: '#b45252',
-     sizePlayer: 10,
-     colorPlayer: '#9d5e82'
- });
-},{"./Labyrinth/index.js":3}]},{},[4])
+ var shapesGame = require('./shapesGame/index.js');
+
+
+ 
+},{"./Labyrinth/index.js":3,"./shapesGame/index.js":5}],5:[function(require,module,exports){
+ (function ($){
+
+    /**
+     * Game Shapes
+     * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
+     * HETIC P2019
+     *
+     * Copyright 2015
+     * Released under the MIT license
+     * http://opensource.org/licenses/MIT
+     *
+     * Date : 2015-04-15
+     */
+
+
+    $.fn.shapesGame = function(options){
+        
+        
+        /**
+         * Import and initialize the constructor
+         * 
+         */
+        
+
+     
+
+        /* ------------------------------------- */
+     
+        
+        
+    };
+
+    module.exports = $.fn.labyrinth;
+
+ }(jQuery));
+},{}]},{},[4])
