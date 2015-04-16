@@ -97,6 +97,10 @@
                         // Create the magnetism effect between element if two shapes are nearby
                         if(Math.abs(x2 - x1) < parseInt(radiusMagnetism) && Math.abs(y2 - y1) < parseInt(radiusMagnetism)){
                             $(this).draggable('destroy'); 
+                            
+                            shape1 = $(this).index();
+                            shape2 = i;
+                            
                             $(this).animate({
                                 top : parseInt($(this).css('top')) + (y2 - y1),
                                 left : parseInt($(this).css('left')) + (x2 - x1),
@@ -107,8 +111,31 @@
                                     // Gather the two elements
                                     $(this).css('opacity', 0);
                                     
-                                    console.log(shapes[$(this).index()]['points']);
-                                    console.log(shapes[i]['points']);
+                                    var cache = [];
+                                    for(var z=0; z < 2;z++){
+                                        
+                                        var index = shape1;
+                                        if(z == 1){
+                                            index = shape2;
+                                        }
+                                        for(var y in shapes[index]['points']){
+                                            if(cache[shapes[index]['points'][y]]){
+                                                cache[shapes[index]['points'][y]]++;
+                                            }
+                                            else{
+                                                cache[shapes[index]['points'][y]] = 0;   
+                                            }
+                                        }
+                                    }
+                                    
+                                    var points = '';
+                                    var cacheCount = 0;
+                                    
+                                    for(var w in cache){
+                                        cacheCount++;
+                                        points = points + w;
+                                    }
+                                    console.log(points);
                                 }
                             });
                         }
