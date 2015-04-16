@@ -11,8 +11,8 @@
         <script src="js/src/webfontloading.js"></script>
         <!-- endbuild -->
         
-        <!-- build:css css/style.min.css -->
-        <link rel="stylesheet" href="css/style.css">
+        <!-- build:css css/app.min.css -->
+        <link rel="stylesheet" href="css/app.css">
         <!-- endbuild -->
     </head>
     <body>
@@ -24,45 +24,63 @@
                 <a role="button" class="Profil__logout">Déconnexion</a>
             </div>
         </header>
-        
+        <a class="wrapper__link W--shame" href="home.html">Retourner à l'accueil</a>
         <div class="wrapper">
             <h1 class="wrapper__title">Jeu du labyrinth</h1>
             <div class="Levels">
-                <a class="Levels__item">
+                <a class="Levels__item" id="level1" data-level="1" role="button">
                     <span class="Levels__item__name">
                         Niveau 1
                     </span>
+                    <span class="Levels__item__count">
+                        <span>6</span> parties réussies
+                    </span>
                 </a>
-                <a class="Levels__item">
+                <a class="Levels__item" id="level2" data-level="2" role="button">
                     <span class="Levels__item__name">
                         Niveau 2
                     </span>
+                    <span class="Levels__item__count">
+                        <span>4</span> parties réussies
+                    </span>
                 </a>
-                <a class="Levels__item">
+                <a class="Levels__item" id="level3" data-level="3" role="button">
                     <span class="Levels__item__name">
                         Niveau 3
+                    </span>
+                    <span class="Levels__item__count">
+                        <span>8</span> parties réussies
                     </span>
                 </a>
             </div>
         </div>
         
-        
-        
+        <!-- build:js js/jquery.js -->
         <script src="vendors/jquery/jquery.js"></script>
-        
-        <!-- build:js js/app.js -->
-        <script src="js/build/app.js"></script>
-        <script>
-            /*$('.labyrinth').labyrinth({
-                grid: 8,
-                sizeCell: 40,
-                borderWidthCell: 4, // TO FIX
-                borderColorCell: '#b45252',
-                sizePlayer: 10,
-                colorPlayer: '#9d5e82',
-                level: 2
-            });*/
-        </script>
         <!-- endbuild -->
+        <!-- build:js js/labyrinth.js -->
+        <script src="js/build/app.js"></script>
+        <!-- endbuild -->
+        <script>
+            $(document).ready(function(){
+                $(document).on('click', '.Levels__item', function(){
+                    $('.Levels').remove();
+                    level = $(this).data('level');
+                    $('.wrapper').append('<div class="labyrinth__area"></div><a class="wrapper__link" id="changelevel" role="button">Revenir à la page de choix des niveaux</a>');
+                    $('.labyrinth__area').labyrinth({
+                        grid: 8,
+                        sizeCell: 40,
+                        borderColorCell: '#2f5e60',
+                        sizePlayer: 18,
+                        colorPlayer: '#b72277',
+                        level: level
+                    });
+                });
+                $(document).on('click', '#changelevel', function(){
+                    location.reload();
+                });
+            });
+            
+        </script>
     </body>
 </html>

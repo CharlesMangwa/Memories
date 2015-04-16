@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js a labyrinth" lang="fr">
+<html class="no-js a home" lang="fr">
     <head>
         <meta charset="utf-8">
         <title>Starter</title>
@@ -12,67 +12,76 @@
         <link rel="stylesheet" href="css/app.min.css">
     </head>
     <body>
-       
         <header class="Header">
+            <a class="Header__logo" href="home.html"></a>
             <div class="Profil">
                 <img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAcAAD/4QMraHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkZFQzNFMDI5RTNBOTExRTQ4MEJFQzFDMDFDRUY4N0VDIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkZFQzNFMDI4RTNBOTExRTQ4MEJFQzFDMDFDRUY4N0VDIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzYgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5kaWQ6NTFDNEQ5Qjg5M0UzRTQxMUJCMzJFQkEzMTM0NDA1MjQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NTFDNEQ5Qjg5M0UzRTQxMUJCMzJFQkEzMTM0NDA1MjQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7/7gAhQWRvYmUAZMAAAAABAwAQAwIDBgAABWIAAAYrAAAIa//bAIQAEAwMDA0MEQ0NERgQDhAYHRURERUdIRcXFxcXISAZHBsbHBkgICYnKScmIDIyNjYyMkFBQUFBQUFBQUFBQUFBQQESEBASFBIWExMWFhEVERYbFhcXFhsoGxsdGxsoMyUgICAgJTMtMSkpKTEtODgzMzg4QUFBQUFBQUFBQUFBQUFB/8IAEQgAOgA6AwEiAAIRAQMRAf/EAKwAAAIDAQEBAAAAAAAAAAAAAAQFAAIGAwEHAQADAQEAAAAAAAAAAAAAAAAAAQMEAhAAAgICAQQCAQUAAAAAAAAAAgMBBAAFERAhEhMUBjIgIhUWNhEAAQMCAwQFCgUFAAAAAAAAARECAwAhMRIEQVEiE2FxMkJSECCBkaHB4TMUBbHRcoJD0iNTkzQSAAECBgIDAQAAAAAAAAAAAAEAERAhMUGBEmECMHGRIv/aAAwDAQACEQMRAAAA2igTGY6d1BTrXNmwHRp/QLYjb4+/npqljtmIUCQwlOfQPHCW4egb8Cb7hl1ogVRT8Ew+7rw5mNPMVEafaIN8uLrv04ckmCv/2gAIAQIAAQUAQiCiIiMIBKPjz7IjiOnGKODDp5x5o9nlHlh+zj9/l//aAAgBAwABBQAi46RMxnl2/RMcT047Fxx2yOM7cf/aAAgBAQABBQDNhv6lQrX2jaG+287rale0qtX3vqJbFtDPte8LW1qdM2JvCsI0KaNbCuKeNx4Sf1raMr2cvzGy3+wKtXpurquZZdIz8OugLbVrym9cZ/ZgzWn427wVnjcXs0lRvbI2uA0Har13JQKyd/HhmwqGraxr9nYaNcaVKU8lYpreN5LPVW+vnUH4OwzZ0VGQlVnJZEA9oJGztGOZpNMyqJiAxxHTcaK6BaKmbdfuDsv3utrqbUpt2MTx36z+LP8ATB+XX//aAAgBAgIGPwDbtSwTAMm7B1q8qvwgBYRdA4PuOl2dfjL0ypgYKOg6/VfZ8uv/2gAIAQMCBj8AYQkn8DqcJrhf/9oACAEBAQY/AKfDE5sk7VULwtO4pt6KdzJSWXRg4W+oVmDSp2CoCHugyMYoDi11m4Wrl6s5m/5EQjrShJG4PY67XAqD5BptMT9ZqAUcP448C7rOA+FGd5IoHInTTJ3HmzFpebcMIG07VrM3AhQd4o5cMKdBIV00pvuY/Y78/h5J3S3jY8xtCqMsfDbrRa5cYA6KiijUyOThaCTevpBpjCxgAcCLOa0JYhcBQMc7i0BWsW3VWZ5IYqcNz7qA0rOYXjtu4W29q18z+Lk9ofN8eNOfKbknN10GtejumoZftzJH5QnMiBKHc5NlGL7jGJIQoZKUD27hbEUGP4m90jaKhD2AAvBBJTZeuSHNkkjdmzMwaiBFrtd/NgP6q1UQGXK8lqeF/E32GssIJCopIA9tR6dnEQ1HEd5yXNLIAQdqUGgkOabFPFTNDE0TPldlazvKtiKAjbnlLf7hbgu4dVdk/I+qwPZ8P6uihq8quY3LJ+kXX0UsRylu0YLTczmobAkpego6AtfSaJhfO+wy7CtGfVESa2UcTtkbfC331kRbIerynUfaUcDd+lcU/wBZP4H0bqE+uhLZXSEiOUEFjY7YG4vU2maHGOONRG0dpxGbh32NZ9OH6Z0Z5bjlDJg4X4jdaSYMLPG4I/1C1E77nzD78PTTPl/84x7Xeodj9uPmf//Z" alt="" class="Profil__img">
                 <span class="Profil__name">Marcel</span>
                 <a role="button" class="Profil__logout">Déconnexion</a>
             </div>
         </header>
-        <a class="wrapper__link W--shame" href="home.html">Retourner à l'accueil</a>
-        <div class="wrapper">
-            <h1 class="wrapper__title">Jeu du labyrinth</h1>
-            <div class="Levels">
-                <a class="Levels__item" id="level1" data-level="1" role="button">
-                    <span class="Levels__item__name">
-                        Niveau 1
-                    </span>
-                    <span class="Levels__item__count">
-                        <span>6</span> parties réussies
-                    </span>
-                </a>
-                <a class="Levels__item" id="level2" data-level="2" role="button">
-                    <span class="Levels__item__name">
-                        Niveau 2
-                    </span>
-                    <span class="Levels__item__count">
-                        <span>4</span> parties réussies
-                    </span>
-                </a>
-                <a class="Levels__item" id="level3" data-level="3" role="button">
-                    <span class="Levels__item__name">
-                        Niveau 3
-                    </span>
-                    <span class="Levels__item__count">
-                        <span>8</span> parties réussies
-                    </span>
-                </a>
+        <div class="Games">
+            <h1 class="Games__title">tous mes jeux</h1>
+            <div class="Games__list Carousel">
+                <div class="Carousel__list">
+                    <a href="labyrinth.html" id="labyrinth" class="Games__item Carousel__item">
+                        <h3 class="Games__item__name">Labyrinthe</h3>
+                    </a>
+                    <a class="Games__item Carousel__item" id="shapes">
+                        <h3 class="Games__item__name">Les 1001 formes</h3>
+                    </a>
+                    <a class="Games__item Carousel__item G--locked">
+                        <h3 class="Games__item__name">La tape taupe</h3>
+                    </a>
+                    <a class="Games__item Carousel__item G--locked">
+                        <h3 class="Games__item__name">Indiana Papy</h3>
+                    </a>
+                </div>
             </div>
         </div>
-        
-        <script src="js/jquery.js"></script>
-        <script src="js/labyrinth.js"></script>
-        <script>
-            $(document).ready(function(){
-                $(document).on('click', '.Levels__item', function(){
-                    $('.Levels').remove();
-                    level = $(this).data('level');
-                    $('.wrapper').append('<div class="labyrinth__area"></div><a class="wrapper__link" id="changelevel" role="button">Revenir à la page de choix des niveaux</a>');
-                    $('.labyrinth__area').labyrinth({
-                        grid: 8,
-                        sizeCell: 40,
-                        borderColorCell: '#2f5e60',
-                        sizePlayer: 18,
-                        colorPlayer: '#b72277',
-                        level: level
-                    });
-                });
-                $(document).on('click', '#changelevel', function(){
-                    location.reload();
-                });
-            });
-            
-        </script>
+        <div class="container">
+            <div class="Stats">
+                <h2 class="Stats__title">mon niveau de jeu</h2>
+                 <div class="Stats__resultat">
+                    <span class="Stats__resultat__position">5<sup>e</sup></span> &nbsp;niveau
+                    <span class="Stats__resultat__position">14<sup></sup></span> &nbsp;badges débloqués
+                </div>
+                <div class="Stats__badges">
+                    <div class="Stats__badge">
+                        Marco Polo
+                    </div>
+                    <div class="Stats__badge">
+                        Papi Moujo
+                    </div>
+                    <div class="Stats__badge">
+                        Papiana Jones
+                    </div>
+                </div>
+            </div>
+            <div class="Event">
+                <span class="Event__line1">
+                    DANS 2 JOURS
+                </span><br>
+                <span class="Event__line2">
+                    JOURNÉE SPÉCIAL L.A.N
+                </span><br>
+                <span class="Event__line3">
+                    serez-vous   
+                </span>
+                <span class="Event__line3bis">
+                    prêt ?
+                </span>
+            </div>
+            <div class="Championship">
+                <h2 class="Championship__title">championnat</h2>
+                <div class="Championship__resultat">
+                    <span class="Championship__resultat__position">8<sup>e</sup></span> &nbsp;de la maison
+                </div>
+                <a role="button" class="Championship__link">Voir le classement</a>
+            </div>
+        </div>
+        <footer class="Footer">
+            © 2015 Memories Inc
+        </footer>
     </body>
 </html>

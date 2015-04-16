@@ -34,7 +34,7 @@
      this.level = 1;
      
      this.sizeCell = 20;
-     this.borderWidth = 5;
+     this.borderWidth = 4;
      this.borderColor = '#00';
      
      this.cache = [];
@@ -53,14 +53,11 @@
       *
       */
      
-     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell, level){
+     this.init = function(grid, sizeCell, borderColorCell, level){
          
          // Initialize options of labyrinth
          if(borderColorCell){
             this.borderColor = borderColorCell;
-         }
-         if(borderWidthCell){
-            this.borderWidth = borderWidthCell;
          }
          if(sizeCell){
             this.sizeCell = sizeCell;
@@ -177,9 +174,6 @@
              
              // Create the ending point if it has not been created before
              if(!this.endingCell && this.level == 1){
-                 var c = this.canvas;
-                 c.fillStyle = 'blue';
-                 c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
                  this.endingCell = this.currentCell;
              }
 
@@ -338,8 +332,6 @@
          // Break the door
          this.canvas.clearRect(x, y, this.sizeCell - (this.borderWidth), this.sizeCell - (this.borderWidth));
          
-         
-         console.log(this.sizeCell - (this.borderWidth));
      }
 
      
@@ -349,7 +341,7 @@
      
 
      /**
-      * Go back to find a new cell
+      * Go back to find a new cell and create the ending cell
       * 
       */
      
@@ -373,12 +365,14 @@
          }  
          
          else{
-             if(this.level == 2){
+             if(this.level == 2 || this.level==3){
                  this.endingCell = this.cache[this.cache.length - 1];
-                 var c = this.canvas;
-                 c.fillStyle = 'blue';
-                 c.fillRect(this.endingCell.substr(0, this.endingCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.endingCell.substring(this.endingCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
              }
+             
+             // Create the ending cell
+             var c = this.canvas;
+             c.fillStyle = 'rgb(250, 250, 250)';
+             c.fillRect(this.endingCell.substr(0, this.endingCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.endingCell.substring(this.endingCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
          }
          
      }

@@ -288,7 +288,10 @@
          .pipe(useref())
          .pipe(gulp.dest(prodDir));
      
-     gulp.src(srcDir + 'css/*.css')
+     gulp.src([srcDir + 'img/**'])
+         .pipe(gulp.dest(prodDir + 'img/'));
+     
+     gulp.src([srcDir + 'css/*.css', '!' + srcDir + 'css/app.css', '!' + srcDir + 'css/website.css'])
          .pipe(gulp.dest(prodDir + 'css/'));
  });
 

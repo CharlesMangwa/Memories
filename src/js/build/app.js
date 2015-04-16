@@ -35,7 +35,7 @@
      this.level = 1;
      
      this.sizeCell = 20;
-     this.borderWidth = 5;
+     this.borderWidth = 4;
      this.borderColor = '#00';
      
      this.cache = [];
@@ -54,14 +54,11 @@
       *
       */
      
-     this.init = function(grid, sizeCell, borderWidthCell, borderColorCell, level){
+     this.init = function(grid, sizeCell, borderColorCell, level){
          
          // Initialize options of labyrinth
          if(borderColorCell){
             this.borderColor = borderColorCell;
-         }
-         if(borderWidthCell){
-            this.borderWidth = borderWidthCell;
          }
          if(sizeCell){
             this.sizeCell = sizeCell;
@@ -178,9 +175,6 @@
              
              // Create the ending point if it has not been created before
              if(!this.endingCell && this.level == 1){
-                 var c = this.canvas;
-                 c.fillStyle = 'blue';
-                 c.fillRect(this.currentCell.substr(0, this.currentCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.currentCell.substring(this.currentCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
                  this.endingCell = this.currentCell;
              }
 
@@ -339,8 +333,6 @@
          // Break the door
          this.canvas.clearRect(x, y, this.sizeCell - (this.borderWidth), this.sizeCell - (this.borderWidth));
          
-         
-         console.log(this.sizeCell - (this.borderWidth));
      }
 
      
@@ -350,7 +342,7 @@
      
 
      /**
-      * Go back to find a new cell
+      * Go back to find a new cell and create the ending cell
       * 
       */
      
@@ -374,12 +366,14 @@
          }  
          
          else{
-             if(this.level == 2){
+             if(this.level == 2 || this.level==3){
                  this.endingCell = this.cache[this.cache.length - 1];
-                 var c = this.canvas;
-                 c.fillStyle = 'blue';
-                 c.fillRect(this.endingCell.substr(0, this.endingCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.endingCell.substring(this.endingCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
              }
+             
+             // Create the ending cell
+             var c = this.canvas;
+             c.fillStyle = 'rgb(250, 250, 250)';
+             c.fillRect(this.endingCell.substr(0, this.endingCell.lastIndexOf('_')) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, this.endingCell.substring(this.endingCell.lastIndexOf('_') + 1) * this.sizeCell + 2 + (this.sizeCell - 10) / 2, 10, 10);
          }
          
      }
@@ -448,6 +442,8 @@
      this.currentCell;
      this.endingCell;
      this.cells;
+     this.level = 1;
+     this.$cache = false;
 
      
      
@@ -461,7 +457,7 @@
       *
       */
      
-     this.init = function(element, size, options){
+     this.init = function(element, size, options, level, cache){
          
          this.$player = element;
          this.sizePlayer = size;
@@ -470,6 +466,7 @@
          this.endingCell = options['endingCell'];
          this.cells = options['cells'];
          this.currentCell = this.startingCell;
+         this.level = level;
          
          var index = this.startingCell.lastIndexOf('_');
          var x = this.startingCell.substr(0, index);
@@ -481,6 +478,15 @@
             left : Math.floor((x * this.sizeCell + addPixels)) - 1 + 'px',
             top : Math.floor((y * this.sizeCell + addPixels)) - 1 + 'px'
          });
+         
+         if(cache && this.level ==3){
+            this.$cache = cache;   
+             
+            this.$cache.css({
+                left : ((Math.floor((x * this.sizeCell + addPixels)) - 1) - (this.$cache.width() / 2)) + 'px',
+                top : ((Math.floor((y * this.sizeCell + addPixels)) - 1) - (this.$cache.height() / 2)) + 'px'
+            });
+         }
          
          
      }
@@ -544,9 +550,17 @@
             left : left + 'px'
         });
          
+         
+         if(this.level == 3){
+            this.$cache.css({
+                left : (left - (this.$cache.width() / 2)) + 'px',
+                top : (top - (this.$cache.height() / 2)) + 'px'
+            });
+         }
+         
         // Check if the player has winned
         if(this.win()){
-            console.log('Win !!');
+            $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné !');
         }
      }
 
@@ -614,7 +628,7 @@
         var Labyrinth = new Constructor();
         
         // Build the labyrinth
-        Labyrinth.init(options['grid'], options['sizeCell'], options['borderWidthCell'], options['borderColorCell'], options['level']);
+        Labyrinth.init(options['grid'], options['sizeCell'], options['borderColorCell'], options['level']);
         Labyrinth.build();
      
 
@@ -632,25 +646,64 @@
         // Get options for the gameplay
         var color = options['colorPlayer'];
         var size = options['sizePlayer'];
+        var level = options['level'];
         var options = Labyrinth.getInformations();
         
         // Create the player element
-        $(this).append('<svg class="labyrinth__player" height="' + size + '" width="' + size + '"><circle cy="' + size / 2 + '" cx="' + size / 2 + '" r="' + size / 2  + '" fill="' + color + '" /></svg>');
+        $(this).append('<svg class="labyrinth__player" height="' + size + '" width="' + size + '"><circle cy="' + size / 2 + '" cx="' + size / 2 + '" r="' + size / 2  + '" fill="' + color + '" stroke="' + $('html').css('backgroundColor') + '"/></svg>');
         $(this).find('.labyrinth__player').css({
             'position' : 'absolute',
             'top' : 0,
             'left' : 0
         });
         
+        if(level==3){
+            // Create the cache element
+            $(this).append('<svg class="labyrinth__cache" height="' + $('.labyrinth__area').width() * 2.6 + '" width="' + $('.labyrinth__area').width() * 2.6 + '"><circle cy="' + $('.labyrinth__area').width() * 1.3 + '" cx="' + $('.labyrinth__area').width() * 1.3 + '" r="' + $('.labyrinth__area').width() * .95  + '" fill="transparent" stroke-width="' + (( (parseInt($('.labyrinth__area').width()) )) + size + options['sizeCell'] * 2) + '" stroke="' + $('html').css('backgroundColor') + '"/></svg>');
+            $(this).find('.labyrinth__cache').css({
+                'position' : 'absolute',
+                'top' : 0,
+                'left' : 0
+            });
+            
+        }
+        
+        // Timer
+        $(this).after('<div class="labyrinth__timer">0s</di>');
+        
         // Create the player
         var Gameplay = require('./gameplay.js');
         var Gameplay = new Gameplay();
-        Gameplay.init($('.labyrinth__player'), size,options);
+        if(level == 3){
+            Gameplay.init($('.labyrinth__player'), size,options, level, $('.labyrinth__cache'));
+        }
+        else{
+            Gameplay.init($('.labyrinth__player'), size,options, level);
+        }
        
-        // On keydown, move the player
+        // On keydown, move the player and start the timer
+        var timer = false;
+        
         $(document).keydown(function(e){
-            Gameplay.move(e);  
+            if(!timer){
+                timer = 1;
+                if(!run){
+                    var run = 1;
+                }
+                $('.labyrinth__timer').text(timer + 's');
+                var timerI = setInterval(function(){
+                    run++;
+                    console.log(run);
+                    timer++;
+                    $('.labyrinth__timer').text(timer + 's');
+                },1000);
+            }
+            
+            if(!Gameplay.win()){
+                Gameplay.move(e);  
+            }
         });
+        
         
         
      
@@ -667,12 +720,11 @@
 },{"./constructor.js":1,"./gameplay.js":2}],4:[function(require,module,exports){
  
  /**
-  * Create a labyrinth
+  * Import dependencies
   *
   */
 
  var labyrinth = require('./Labyrinth/index.js');
-
  var shapesGame = require('./shapesGame/index.js');
 
 

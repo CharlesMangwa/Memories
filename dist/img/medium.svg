@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="240px" height="212px" viewBox="0 0 240 212" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>moyen</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="moyen" sketch:type="MSLayerGroup" transform="translate(1.000000, -18.000000)">
+            <g id="Page-1" sketch:type="MSShapeGroup">
+                <g id="moyen">
+                    <ellipse id="Oval-2" fill="#FFFFFF" filter="url(#filter-1)" cx="118.5" cy="123.557803" rx="28.5556641" ry="27.3026017"></ellipse>
+                    <path d="M119,150.860405 C135.047,150.860405 148.055664,138.636614 148.055664,123.557803 C148.055664,108.478992 135.047,96.2552014 119,96.2552014 L119,123.557803 L119,150.860405 L119,150.860405 Z" id="Oval-2" fill="#E8E8E8" filter="url(#filter-2)"></path>
+                    <ellipse id="Oval-3" stroke="#FFFFFF" stroke-width="2" cx="119" cy="123.557803" rx="118.262808" ry="42.0794421"></ellipse>
+                    <ellipse id="Oval-3" stroke="#FFFFFF" stroke-width="2" transform="translate(120.379277, 123.557803) rotate(240.000000) translate(-120.379277, -123.557803) " cx="120.379277" cy="123.557803" rx="118.262808" ry="42.0794421"></ellipse>
+                    <ellipse id="Oval-4" fill="#F6F6FF" cx="95.004687" cy="28.3533403" rx="9.5474883" ry="9.11560607"></ellipse>
+                    <ellipse id="Oval-4" fill="#FFFFFF" cx="21.3839639" cy="99.856088" rx="9.5474883" ry="9.11560607"></ellipse>
+                    <path d="M94.760559,37.4972519 C100.168319,37.4972519 104.552175,33.5200621 104.552175,28.438577 C104.552175,23.3570918 100.168319,19.2377342 94.760559,19.2377342 L94.760559,28.438577 L94.760559,37.4972519 L94.760559,37.4972519 Z" id="Oval-2" fill="#DCDCDD"></path>
+                    <path d="M21.139836,109 C26.5475963,109 30.9314522,105.02281 30.9314522,99.941325 C30.9314522,94.85984 26.5475963,90.7404823 21.139836,90.7404823 C21.1398361,96.4750354 21.139836,94.85984 21.139836,99.941325 C21.139836,105.02281 21.1398361,102.118004 21.139836,109 L21.139836,109 Z" id="Oval-2" fill="#D7D7D7"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

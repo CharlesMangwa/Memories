@@ -26,6 +26,8 @@
      this.currentCell;
      this.endingCell;
      this.cells;
+     this.level = 1;
+     this.$cache = false;
 
      
      
@@ -39,7 +41,7 @@
       *
       */
      
-     this.init = function(element, size, options){
+     this.init = function(element, size, options, level, cache){
          
          this.$player = element;
          this.sizePlayer = size;
@@ -48,6 +50,7 @@
          this.endingCell = options['endingCell'];
          this.cells = options['cells'];
          this.currentCell = this.startingCell;
+         this.level = level;
          
          var index = this.startingCell.lastIndexOf('_');
          var x = this.startingCell.substr(0, index);
@@ -59,6 +62,15 @@
             left : Math.floor((x * this.sizeCell + addPixels)) - 1 + 'px',
             top : Math.floor((y * this.sizeCell + addPixels)) - 1 + 'px'
          });
+         
+         if(cache && this.level ==3){
+            this.$cache = cache;   
+             
+            this.$cache.css({
+                left : ((Math.floor((x * this.sizeCell + addPixels)) - 1) - (this.$cache.width() / 2)) + 'px',
+                top : ((Math.floor((y * this.sizeCell + addPixels)) - 1) - (this.$cache.height() / 2)) + 'px'
+            });
+         }
          
          
      }
@@ -122,9 +134,17 @@
             left : left + 'px'
         });
          
+         
+         if(this.level == 3){
+            this.$cache.css({
+                left : (left - (this.$cache.width() / 2)) + 'px',
+                top : (top - (this.$cache.height() / 2)) + 'px'
+            });
+         }
+         
         // Check if the player has winned
         if(this.win()){
-            console.log('Win !!');
+            $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné !');
         }
      }
 

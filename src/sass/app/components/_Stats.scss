@@ -9,7 +9,7 @@
      width: rem(650px);    height: rem(360px);
      background-color: $tertiary-color;
      text-align: center;
-     
+     color:rgba(black,.9);
      
      &__resultat{
          margin-top: rem(30px);
@@ -21,6 +21,7 @@
              font-size: rem(27px);
              padding: rem(4px) rem(11px);
              font-family: 'Grafolita';
+             color:rgba(black,.8);
              
              sup:before{
                  content: ' ';
@@ -30,6 +31,14 @@
                  margin-left: rem(50px);   
              }
          }
+     }
+     
+     &__badge{
+         display: inline-block;
+         width: rem(140px);
+         font-size: rem(24px);
+         padding-top: rem(150px);
+         text-transform: uppercase;
      }
  }
 

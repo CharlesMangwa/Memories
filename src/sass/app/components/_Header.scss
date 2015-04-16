@@ -7,6 +7,18 @@
  .Header{
      position: absolute;
      width: 100%;
+     
+     &__logo{
+         display: block;
+         position: absolute;
+         background: url('../img/logo.svg');
+         background-size: cover;
+         width: rem(180px);
+         height: rem(100px);
+         top:rem(-15px);
+         left:50%;
+         margin-left: rem(-460px);
+     }
  }
 
  /* ------------------------------------- */
