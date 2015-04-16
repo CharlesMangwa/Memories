@@ -42,7 +42,7 @@
              text-transform: uppercase;
              
              &.is-active a, &:hover a{
-                color:#5ec1c7;
+                color:#f9b42d;
              }
          }
          
@@ -218,14 +218,14 @@
          }
          
          strong{
-             color:#5ec1c7;             
+             color:#f9b42d;             
          }
          
          a{
              position: relative;
              top:rem(60px);
              padding: rem(15px) rem(23px);
-             background-color: rgba(#5ec1c7,.9);
+             background-color: rgba(#f9b42d,.9);
              color:white;
              text-decoration: none;
              margin-left: rem(30px);
@@ -235,7 +235,7 @@
             
              
              &:hover, &:focus{
-                 background-color: rgba(#5ec1c7,.7);
+                 background-color: rgba(#f9b42d,.7);
              }
          }
      }

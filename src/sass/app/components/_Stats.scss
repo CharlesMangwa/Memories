@@ -33,12 +33,43 @@
          }
      }
      
+     &__badges{
+         margin-top: rem(10px);
+     }
+     
      &__badge{
          display: inline-block;
+         position: relative;
+         margin-top: rem(30px);
          width: rem(140px);
          font-size: rem(24px);
-         padding-top: rem(150px);
          text-transform: uppercase;
+         
+         & + &{
+             margin-left:rem(22px);             
+         }
+         
+         &:before{
+             content:'';
+             display: block;
+             width: 100%;    height: rem(110px);
+             margin-bottom: 6px;
+             background-size: contain;
+             background-position: center;
+             background-repeat: no-repeat;
+         }
+         
+         &#badge1:before{
+             background-image: url('../img/speedygonzales.svg');
+         }
+         
+         &#badge2:before{
+             background-image: url('../img/architect.svg');
+         }
+         
+         &#badge3:before{
+             background-image: url('../img/ingenieur.svg');
+         }
      }
  }
 
