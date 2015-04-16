@@ -8,7 +8,6 @@
   * http://opensource.org/licenses/MIT
   *
   * Date of creative : 2015-04-14
-  * Update : 2015-04-14
   */
 
 

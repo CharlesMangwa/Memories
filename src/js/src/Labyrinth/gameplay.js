@@ -8,7 +8,6 @@
   * http://opensource.org/licenses/MIT
   *
   * Date of creative : 2015-04-14
-  * Update : 2015-04-14
   */
 
  var Gameplay = function(){
@@ -145,6 +144,9 @@
         // Check if the player has winned
         if(this.win()){
             $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné !');
+            if(this.level == 3){
+                this.$cache.remove();
+            }
         }
      }
 

@@ -1,0 +1,46 @@
+
+ /**
+  * Shapes Page Style
+  *
+  */ 
+ 
+ .shapes{
+     background-color: $primary-color;
+     
+     .wrapper{
+         position: absolute;
+         z-index: -1;
+         width: 100%;
+         margin-top: rem(-280px);   
+         height: rem(490px);
+         top:50%;
+         text-align: center;
+     }
+         
+     .wrapper__link{
+         padding: rem(11px) rem(18px);
+         background-color: rgba(black,.5);
+         color:white;
+         text-decoration: none;
+         margin-left: rem(30px);
+         text-transform: uppercase;
+         font-size: rem(24px);
+         margin-left: rem(14px);
+         cursor: pointer;
+
+         &:hover, &:focus{
+             background-color: rgba(black,.8);
+         }
+
+         &.W--shame{
+             position: absolute;
+             top:rem(20px);     left:rem(20px);
+         }
+     }
+     
+     .Shapes__area{
+         margin-top: rem(60px);   
+     }
+ }
+
+ /* ------------------------------------- */

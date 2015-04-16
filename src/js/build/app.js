@@ -9,7 +9,6 @@
   * http://opensource.org/licenses/MIT
   *
   * Date of creative : 2015-04-14
-  * Update : 2015-04-14
   */
 
 
@@ -424,7 +423,6 @@
   * http://opensource.org/licenses/MIT
   *
   * Date of creative : 2015-04-14
-  * Update : 2015-04-14
   */
 
  var Gameplay = function(){
@@ -561,6 +559,9 @@
         // Check if the player has winned
         if(this.win()){
             $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné !');
+            if(this.level == 3){
+                this.$cache.remove();
+            }
         }
      }
 
@@ -718,6 +719,353 @@
 
  }(jQuery));
 },{"./constructor.js":1,"./gameplay.js":2}],4:[function(require,module,exports){
+ /**
+  * Shapes Plugin - Constructor Module
+  * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
+  * HETIC P2019
+  *
+  * Copyright 2015
+  * Released under the MIT license
+  * http://opensource.org/licenses/MIT
+  *
+  * Date of creative : 2015-04-14
+  */
+
+
+ var Constructor = function(){
+     
+     
+     /**
+      * Variables
+      *
+      */
+     
+     this.$container;
+     this.color = '#000';
+     this.shapes = [];
+     this.vectors = [];
+     this.radiusMagnetism;
+     
+     
+     
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Initialize the constructor
+      *
+      */
+     
+     this.init = function(container, options){
+        
+         this.$container = container;
+        
+         if(options['color']){
+             this.color = options['color'];
+         }
+         
+         if(options['radiusMagnetism']){
+             this.radiusMagnetism = options['radiusMagnetism'];
+         }
+    
+     }
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Run the constructor
+      *
+      */
+     
+     this.run = function(){
+         
+         this.createShape();
+         this.cutShape();
+         
+     }
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Create the main shape
+      *
+      */
+     
+     this.createShape = function(){
+         
+         this.$container.append('<svg class="Shapes__main" data-id="0" height="180" width="180"><polygon fill="' + this.color + '" points="60 180, 180 120, 120 0, 0 60"/></svg>');
+         this.$container.css('height', (parseInt(this.$container.css('height')) + 130 ));
+         
+     }
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Cut the shap
+      *
+      */
+     
+     this.cutShape = function(){
+         
+         // Create shapes
+         this.$container.find('.Shapes__main').remove();
+         this.$container.append('<div class="Shapes__cut"><svg class="Shape__cut" height="180" width="180"><polygon fill="' + this.color + '" points="0 60, 180 120, 60 180"/></svg><svg class="Shape__cut" data-id="0" height="180" width="180"><polygon fill="' + this.color + '" points="0 60, 120 0, 180 120"/></svg></div>');
+          
+         // Save each shape in tab
+         var shapes = this.shapes;
+         
+         $('.Shape__cut').each(function(index){
+             shapes[index] = [];
+             shapes[index]['points'] = $(this).find('polygon').attr('points').split(', ');
+             shapes[index]['coordinates'] = $(this).offset().left + ';' + $(this).offset().top;
+             shapes[index]['position'] = $(this).offset().left + ';' + $(this).offset().top;
+         });
+         
+         this.shapes = shapes;
+         
+         console.log(shapes);
+          
+     }
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Get options
+      *
+      */
+     
+     this.getOptions = function(){
+         
+         var options = [];
+         options['$shapes'] = $('.Shape__cut');
+         options['shapes'] = this.shapes;
+         options['radiusMagnetism'] = this.radiusMagnetism;
+         
+         return options;
+         
+     }
+     
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+ }
+
+ module.exports = Constructor;
+},{}],5:[function(require,module,exports){
+ /**
+  * Shapes Plugin - Gameplay Module
+  * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
+  * HETIC P2019
+  *
+  * Copyright 2015
+  * Released under the MIT license
+  * http://opensource.org/licenses/MIT
+  *
+  * Date of creative : 2015-04-16
+  */
+
+
+ var Constructor = function(){
+     
+     
+     /**
+      * Variables
+      *
+      */
+     
+     this.$container;
+     this.$shapes;
+     this.shapes;
+     this.vectors;
+     this.radiusMagnetism = 40;
+     
+     
+     
+     
+     
+     
+     /* ------------------------------------- */
+     
+     
+
+     /**
+      * Initialize the gameplay
+      *
+      */
+     
+     this.init = function(element, options){
+        
+         this.$container = element;
+         this.$shapes = options['$shapes'];
+         this.shapes = options['shapes'];
+         this.vectors = options['vectors'];
+         
+         if(options['radiusMagnetism']){
+            this.radiusMagnetism = options['radiusMagnetism'];
+         }
+         
+         
+     }
+     
+     
+
+     /**
+      * Run the gameplay
+      *
+      */
+     
+     this.run = function(){
+         
+         var $shapes = this.$shapes;
+         var shapes = this.shapes;
+         var radiusMagnetism = this.radiusMagnetism;
+         var x;
+         var y;
+         var coordinates;
+         var position;
+         
+          
+         this.$shapes.draggable({
+            containment : this.$container,
+            drag : function(){
+                
+                // Change coordonates of element on dragging
+                position = shapes[$(this).index()]['position'];
+                x = parseInt(position.substring(0,position.lastIndexOf(';')));
+                y = parseInt(position.substring(position.lastIndexOf(';') + 1));
+                x = (x + parseInt($(this).css('left')));
+                y = (y + parseInt($(this).css('top')));
+                coordinates = x + ';' + y;
+                shapes[$(this).index()]['coordinates'] = coordinates;
+                
+                // Check the position of all other shapes
+                for(var i in shapes){
+                    if(i != $(this).index()){
+                        shape1 = coordinates;
+                        shape2 = shapes[i]['coordinates'];
+                        x1 = parseInt(shape1.substring(0,shape1.lastIndexOf(';')));
+                        y1 = parseInt(shape1.substring(shape1.lastIndexOf(';') + 1));
+                        x2 = parseInt(shape2.substring(0,shape2.lastIndexOf(';')));
+                        y2 = parseInt(shape2.substring(shape2.lastIndexOf(';') + 1));
+                        
+                        // Create the magnetism effect between element if two shapes are nearby
+                        if(Math.abs(x2 - x1) < parseInt(radiusMagnetism) && Math.abs(y2 - y1) < parseInt(radiusMagnetism)){
+                            $(this).draggable('destroy'); 
+                            $(this).animate({
+                                top : parseInt($(this).css('top')) + (y2 - y1),
+                                left : parseInt($(this).css('left')) + (x2 - x1),
+                            },{
+                                duration : 150,
+                                complete : function(){
+                                    
+                                    // Gather the two elements
+                                    $(this).css('opacity', 0);
+                                    
+                                    console.log(shapes[$(this).index()]['points']);
+                                    console.log(shapes[i]['points']);
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+         });
+     }
+     
+     
+
+     
+     
+     /* ------------------------------------- */
+     
+     
+ }
+
+ module.exports = Constructor;
+},{}],6:[function(require,module,exports){
+ (function ($){
+
+    /**
+     * Shapes Plugin
+     * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
+     * HETIC P2019
+     *
+     * Copyright 2015
+     * Released under the MIT license
+     * http://opensource.org/licenses/MIT
+     *b
+     * Date : 2015-04-14
+     */
+
+
+    $.fn.shapes = function(options){
+        
+        
+        /**
+         * Import and initialize the constructor
+         * 
+         */
+                
+        // Import the constructor
+        var Constructor = require('./constructor.js');
+        var Shapes = new Constructor();
+        Shapes.init($(this), options);
+        Shapes.run();
+
+        /* ------------------------------------- */
+        
+        
+        
+        
+        
+        /**
+         * Import and initialize the gameplay
+         * 
+         */
+                
+        // Import the constructor
+        var Gameplay = require('./gameplay.js');
+        var Gameplay = new Gameplay();
+        Gameplay.init($(this), Shapes.getOptions());
+        Gameplay.run();
+        
+        /* ------------------------------------- */
+     
+        
+        
+    };
+
+    module.exports = $.fn.shapes;
+
+ }(jQuery));
+},{"./constructor.js":4,"./gameplay.js":5}],7:[function(require,module,exports){
  
  /**
   * Import dependencies
@@ -725,44 +1073,8 @@
   */
 
  var labyrinth = require('./Labyrinth/index.js');
- var shapesGame = require('./shapesGame/index.js');
+ var shapes = require('./Shapes/index.js');
 
 
  
-},{"./Labyrinth/index.js":3,"./shapesGame/index.js":5}],5:[function(require,module,exports){
- (function ($){
-
-    /**
-     * Game Shapes
-     * By Charles MANGWA, Clément VION, Aymeric CHAPPUY, Alexandre DALLOT and Léo LE BRAS
-     * HETIC P2019
-     *
-     * Copyright 2015
-     * Released under the MIT license
-     * http://opensource.org/licenses/MIT
-     *
-     * Date : 2015-04-15
-     */
-
-
-    $.fn.shapesGame = function(options){
-        
-        
-        /**
-         * Import and initialize the constructor
-         * 
-         */
-        
-
-     
-
-        /* ------------------------------------- */
-     
-        
-        
-    };
-
-    module.exports = $.fn.labyrinth;
-
- }(jQuery));
-},{}]},{},[4])
+},{"./Labyrinth/index.js":3,"./Shapes/index.js":6}]},{},[7])
