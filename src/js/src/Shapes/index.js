@@ -51,6 +51,12 @@
         else if(Shapes.modelsType[Shapes.model] == 'hexagon'){
             shapeName = 'hexagone';
         }
+        else if(Shapes.modelsType[Shapes.model] == 'pentagon'){
+            shapeName = 'pentagone';
+        }
+        else if(Shapes.modelsType[Shapes.model] == 'heptagon'){
+            shapeName = 'heptagone';
+        }
         
         $(this).append('<div class="Shapes__timer">Recréer un ' + shapeName + ' !</div><a class="wrapper__link" id="restart" role="button">Rejouer</a>');
         $('#restart').click(function(){
