@@ -44,6 +44,19 @@
         Gameplay.init($(this), Shapes.getOptions());
         Gameplay.run();
         
+        var shapeName = 'carré';
+        if(Shapes.modelsType[Shapes.model] == 'octagon'){
+            shapeName = 'octogone';
+        }
+        else if(Shapes.modelsType[Shapes.model] == 'hexagon'){
+            shapeName = 'hexagone';
+        }
+        
+        $(this).append('<div class="Shapes__timer">Recréer un ' + shapeName + ' !</div><a class="wrapper__link" id="restart" role="button">Rejouer</a>');
+        $('#restart').click(function(){
+            location.reload();
+        });
+        
         /* ------------------------------------- */
      
         

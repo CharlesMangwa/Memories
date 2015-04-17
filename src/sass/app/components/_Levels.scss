@@ -46,14 +46,14 @@
          }
          
          &#level2 .Levels__item__name:after{
-             background:url('../img/medium.svg')  $tertiary-color;
+             background:url('../img/medium.svg') $secondary-color;
              background-repeat: no-repeat;
              background-position: center;
              background-size: 70%;
          }
          
          &#level3 .Levels__item__name:after{
-             background:url('../img/difficult.svg')  $secondary-color;
+             background:url('../img/difficult.svg') $tertiary-color;
              background-repeat: no-repeat;
              background-position: center;
              background-size: 60%;

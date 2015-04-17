@@ -143,7 +143,8 @@
          
         // Check if the player has winned
         if(this.win()){
-            $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné !');
+            var timer = $('.labyrinth__timer').text();
+            $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné en ' + timer + ' !');
             if(this.level == 3){
                 this.$cache.remove();
             }

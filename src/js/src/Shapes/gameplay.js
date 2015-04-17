@@ -69,11 +69,25 @@
          var y;
          var coordinates;
          var position;
+         var timer = false;
+         var countShapes = 0;
          
-          
+         this.$shapes.each(function(){
+             countShapes++;
+         });
+         
          this.$shapes.draggable({
-            containment : this.$container,
             drag : function(){
+                
+                // Play the timer
+                if(!timer){
+                    timer = 1;
+                    $('.Shapes__timer').text(timer + 's');
+                    var timerI = setInterval(function(){
+                        timer++;
+                        $('.Shapes__timer').text(timer + 's');
+                    },1000);
+                }
                 
                 // Change coordonates of element on dragging
                 position = shapes[$(this).index()]['position'];
@@ -96,48 +110,37 @@
                         
                         // Create the magnetism effect between element if two shapes are nearby
                         if(Math.abs(x2 - x1) < parseInt(radiusMagnetism) && Math.abs(y2 - y1) < parseInt(radiusMagnetism)){
-                            $(this).draggable('destroy'); 
                             
-                            shape1 = $(this).index();
-                            shape2 = i;
-                            
-                            $(this).animate({
-                                top : parseInt($(this).css('top')) + (y2 - y1),
-                                left : parseInt($(this).css('left')) + (x2 - x1),
-                            },{
-                                duration : 150,
-                                complete : function(){
-                                    
-                                    // Gather the two elements
-                                    $(this).css('opacity', 0);
-                                    
-                                    var cache = [];
-                                    for(var z=0; z < 2;z++){
+                            // Check if draggable is initialize
+                            if($(this).draggable()){
+                                
+                                // Remove draggable on the element
+                                $(this).draggable('disable'); 
+                                $(this).draggable('destroy');
+                                $(this).css('opacity', '.6');
+                                $shapes.eq(i).css('opacity', '.6');
+                                shape1i = $(this).index();
+                                shape2i = i;
+                                
+                                // Apply magnetism effect
+                                $(this).animate({
+                                    top : parseInt($(this).css('top')) + (y2 - y1),
+                                    left : parseInt($(this).css('left')) + (x2 - x1),
+                                },{
+                                    duration : 150,
+                                    complete : function(){
                                         
-                                        var index = shape1;
-                                        if(z == 1){
-                                            index = shape2;
-                                        }
-                                        for(var y in shapes[index]['points']){
-                                            if(cache[shapes[index]['points'][y]]){
-                                                cache[shapes[index]['points'][y]]++;
-                                            }
-                                            else{
-                                                cache[shapes[index]['points'][y]] = 0;   
-                                            }
+                                        // Remove a shape in memory
+                                        countShapes = countShapes - 1;
+
+                                        // Detect if the player win
+                                        if(countShapes == 1){
+                                            var timer = $('.Shapes__timer').text();
+                                            $('.Shapes__timer').removeClass('Shapes__timer').addClass('Shapes__message').text('Gagné en ' + timer + ' !');
                                         }
                                     }
-                                    
-                                    var points = '';
-                                    var cacheCount = 0;
-                                    
-                                    for(var w in cache){
-                                        cacheCount++;
-                                        points = points + w;
-                                    }
-                                    console.log(points);
-                                }
-                            });
+                                });
+                            }
                         }
                     }
                 }

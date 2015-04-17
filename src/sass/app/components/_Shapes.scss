@@ -10,6 +10,14 @@
      &__main{
          display: inline-block;
      }
+         
+     &__timer, 
+     &__message{
+         font-size: rem(32px);
+         padding-bottom: rem(38px);
+         opacity: .6;
+         padding-top: rem(30px);
+     }
  }
 
  /* ------------------------------------- */

@@ -558,7 +558,8 @@
          
         // Check if the player has winned
         if(this.win()){
-            $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné !');
+            var timer = $('.labyrinth__timer').text();
+            $('.labyrinth__timer').removeClass('labyrinth__timer').addClass('labyrinth__message').text('Gagné en ' + timer + ' !');
             if(this.level == 3){
                 this.$cache.remove();
             }
@@ -745,6 +746,9 @@
      this.shapes = [];
      this.vectors = [];
      this.radiusMagnetism;
+     this.model;
+     this.models = [];
+     this.modelsType = [];
      
      
      
@@ -760,17 +764,48 @@
       */
      
      this.init = function(container, options){
-        
+         
+         // Initialize params
          this.$container = container;
-        
          if(options['color']){
              this.color = options['color'];
-         }
-         
          if(options['radiusMagnetism']){
+         }
              this.radiusMagnetism = options['radiusMagnetism'];
          }
-    
+         
+         // Fix height of container
+         this.$container.css('height', (parseInt(this.$container.css('height')) + 230 ) + 'px');
+         
+         // Create some models
+         // Square #1
+         this.modelsType[0] = 'square';
+         this.models[0] = [];
+         this.models[0][0] = '0 60, 180 120, 60 180';
+         this.models[0][1] = '0 60, 120 0, 180 120';
+         // Octagon #1
+         this.modelsType[1] = 'octagon';
+         this.models[1] = [];
+         this.models[1][0] = '120 0, 180 60, 180 120, 100 80';
+         this.models[1][1] = '0 60, 60 0, 120 0, 100 80, 0 120'
+         this.models[1][2] = '100 80, 180 120, 120 180, 60 180, 0 120';
+         // Octagon #1
+         this.modelsType[2] = 'hexagon';
+         this.models[2] = [];
+         this.models[2][0] = '80 40, 160 80, 100 160, 60 160';
+         this.models[2][1] = '80 40, 60 0, 100 0, 160 80';
+         this.models[2][2] = '80 40, 60 160, 0 80, 60 0';
+         // Pentagon #1
+         this.modelsType[3] = 'pentagon';
+         this.models[3] = [];
+         this.models[3][0] = '0 80, 60 80, 100 160, 60 160';
+         this.models[3][1] = '80 0, 100 40, 60 80, 0 80';
+         this.models[3][2] = '80 0, 160 80, 100 160, 60 80, 100 40';
+         
+         //this.model = Math.floor(Math.random() * this.models.length);
+         this.model = 3;
+         
+         
      }
      
 
@@ -787,8 +822,8 @@
      
      this.run = function(){
          
-         this.createShape();
-         this.cutShape();
+        this.createShape();
+        this.cutShape();
          
      }
      
@@ -806,8 +841,7 @@
      
      this.createShape = function(){
          
-         this.$container.append('<svg class="Shapes__main" data-id="0" height="180" width="180"><polygon fill="' + this.color + '" points="60 180, 180 120, 120 0, 0 60"/></svg>');
-         this.$container.css('height', (parseInt(this.$container.css('height')) + 130 ));
+         // TODO
          
      }
      
@@ -827,21 +861,29 @@
          
          // Create shapes
          this.$container.find('.Shapes__main').remove();
-         this.$container.append('<div class="Shapes__cut"><svg class="Shape__cut" height="180" width="180"><polygon fill="' + this.color + '" points="0 60, 180 120, 60 180"/></svg><svg class="Shape__cut" data-id="0" height="180" width="180"><polygon fill="' + this.color + '" points="0 60, 120 0, 180 120"/></svg></div>');
-          
+         this.$container.append('<div class="Shapes__cut" style="height:' +  this.$container.css('height') + '">');
+                                
+         for(var i=0 in this.models[this.model]){
+             $('.Shapes__cut').append('<svg class="Shape__cut" height="180" width="180"><polygon fill="' + this.color + '" points="' + this.models[this.model][i]  + '"/></svg>');
+         }
+
          // Save each shape in tab
          var shapes = this.shapes;
          
          $('.Shape__cut').each(function(index){
+             $(this).css({
+                'left': 0,
+                'top': 0,
+             });
              shapes[index] = [];
              shapes[index]['points'] = $(this).find('polygon').attr('points').split(', ');
              shapes[index]['coordinates'] = $(this).offset().left + ';' + $(this).offset().top;
              shapes[index]['position'] = $(this).offset().left + ';' + $(this).offset().top;
          });
          
+         // Save shapes
          this.shapes = shapes;
          
-         console.log(shapes);
           
      }
      
@@ -950,11 +992,25 @@
          var y;
          var coordinates;
          var position;
+         var timer = false;
+         var countShapes = 0;
          
-          
+         this.$shapes.each(function(){
+             countShapes++;
+         });
+         
          this.$shapes.draggable({
-            containment : this.$container,
             drag : function(){
+                
+                // Play the timer
+                if(!timer){
+                    timer = 1;
+                    $('.Shapes__timer').text(timer + 's');
+                    var timerI = setInterval(function(){
+                        timer++;
+                        $('.Shapes__timer').text(timer + 's');
+                    },1000);
+                }
                 
                 // Change coordonates of element on dragging
                 position = shapes[$(this).index()]['position'];
@@ -977,48 +1033,37 @@
                         
                         // Create the magnetism effect between element if two shapes are nearby
                         if(Math.abs(x2 - x1) < parseInt(radiusMagnetism) && Math.abs(y2 - y1) < parseInt(radiusMagnetism)){
-                            $(this).draggable('destroy'); 
                             
-                            shape1 = $(this).index();
-                            shape2 = i;
-                            
-                            $(this).animate({
-                                top : parseInt($(this).css('top')) + (y2 - y1),
-                                left : parseInt($(this).css('left')) + (x2 - x1),
-                            },{
-                                duration : 150,
-                                complete : function(){
-                                    
-                                    // Gather the two elements
-                                    $(this).css('opacity', 0);
-                                    
-                                    var cache = [];
-                                    for(var z=0; z < 2;z++){
+                            // Check if draggable is initialize
+                            if($(this).draggable()){
+                                
+                                // Remove draggable on the element
+                                $(this).draggable('disable'); 
+                                $(this).draggable('destroy');
+                                $(this).css('opacity', '.6');
+                                $shapes.eq(i).css('opacity', '.6');
+                                shape1i = $(this).index();
+                                shape2i = i;
+                                
+                                // Apply magnetism effect
+                                $(this).animate({
+                                    top : parseInt($(this).css('top')) + (y2 - y1),
+                                    left : parseInt($(this).css('left')) + (x2 - x1),
+                                },{
+                                    duration : 150,
+                                    complete : function(){
                                         
-                                        var index = shape1;
-                                        if(z == 1){
-                                            index = shape2;
-                                        }
-                                        for(var y in shapes[index]['points']){
-                                            if(cache[shapes[index]['points'][y]]){
-                                                cache[shapes[index]['points'][y]]++;
-                                            }
-                                            else{
-                                                cache[shapes[index]['points'][y]] = 0;   
-                                            }
+                                        // Remove a shape in memory
+                                        countShapes = countShapes - 1;
+
+                                        // Detect if the player win
+                                        if(countShapes == 1){
+                                            var timer = $('.Shapes__timer').text();
+                                            $('.Shapes__timer').removeClass('Shapes__timer').addClass('Shapes__message').text('Gagné en ' + timer + ' !');
                                         }
                                     }
-                                    
-                                    var points = '';
-                                    var cacheCount = 0;
-                                    
-                                    for(var w in cache){
-                                        cacheCount++;
-                                        points = points + w;
-                                    }
-                                    console.log(points);
-                                }
-                            });
+                                });
+                            }
                         }
                     }
                 }
@@ -1082,6 +1127,19 @@
         var Gameplay = new Gameplay();
         Gameplay.init($(this), Shapes.getOptions());
         Gameplay.run();
+        
+        var shapeName = 'carré';
+        if(Shapes.modelsType[Shapes.model] == 'octagon'){
+            shapeName = 'octogone';
+        }
+        else if(Shapes.modelsType[Shapes.model] == 'hexagon'){
+            shapeName = 'hexagone';
+        }
+        
+        $(this).append('<div class="Shapes__timer">Recréer un ' + shapeName + ' !</div><a class="wrapper__link" id="restart" role="button">Rejouer</a>');
+        $('#restart').click(function(){
+            location.reload();
+        });
         
         /* ------------------------------------- */
      
