@@ -158,8 +158,7 @@
                  {removeUselessStrokeAndFill: false},
                  {removeEmptyAttrs: false}],
              use: [pngquant()]
-         }))
-         .pipe(gulp.dest(prodDir + 'img'));
+         }));
  });
 
 

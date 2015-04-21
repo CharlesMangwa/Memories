@@ -62,7 +62,7 @@
          if(sizeCell){
             this.sizeCell = sizeCell;
          }
-         if(level == 1 && this.level == 2){
+         if(level == 1 || level == 2 || level == 3){
              this.level = level;
          }
          
